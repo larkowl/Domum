@@ -1,0 +1,115 @@
+body, p, a{
+	margin: 0;
+	padding: 0;
+}
+body{
+	position: fixed;
+}
+.background{
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+.mixbck{
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0.4;
+}
+#black{
+	background-color: black;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+#logo{
+	position: absolute;
+	top: 23%;
+	left: 45%;
+	font-family: Gadugi;
+	font-size: 40pt;
+	font-weight: 500;
+	color: white;
+	opacity: 0.7;
+}
+#window{
+	position: absolute;
+	width: 400px;
+	height: 300px;
+	top: 35%;
+	left:38%;
+	background-color: rgba(255,255,255,0.7);
+}
+#google{
+	width: 50px;
+	height: 50px;
+	position: relative;
+	top: 15px;
+	left: 335px;
+}
+.label{
+	position: absolute;
+	color: black;
+	font-family: MS Gothic;
+	font-size: 14pt;
+	left: 50px;
+}
+#label1{
+	top: 74px;
+	font-weight: 600;
+}
+#label2{
+	top: 154px;
+	font-weight: 600;
+}
+#help{
+	font-family: Yu Gothic UI;
+	font-size: 11pt;
+	top: 212px;
+	left: 211px;
+	letter-spacing: 0.5pt;
+}
+#help:hover{
+	text-decoration: underline;
+}
+input{
+	position: absolute;
+	background-color: rgba(255,255,255);
+	opacity: 1;
+	font-family: MS Gothic;
+	font-size: 14pt;
+	color: black;
+	left: 85px;
+	height: 22px;
+	width: 230px;
+}
+#login{
+	top: 102px;
+}
+#password{
+	top: 182px;
+}
+#button{
+	position: absolute;
+	top: 70%;
+	left: 44%;
+	color: white;
+	font-size: 24pt;
+	font-family: MS Gothic;
+}
+.line{
+	padding: 0;
+	margin: 0;
+	color: white;
+	position: absolute;
+	border-style: solid;
+	background-color: white;
+}
+#line1{
+	top: 583px;
+	left: 805px;
+	width: 244px;
+}
+#button:hover{
+	opacity: 0.6;
+}

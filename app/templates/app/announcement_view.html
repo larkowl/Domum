@@ -1,0 +1,15 @@
+{% extends 'app/base.html' %}
+{% block title %}{{ announcement }}{% endblock %}
+{% block content %}
+    <hr>
+    <div>
+        <h1>{{announcement}}</h1>
+        <h3><p>Комментарий: {{ announcement.comment }}</p></h3>
+        <h2><p>Владелец: {{ announcement.owner }}</p></h2>
+        <p>Дата подачи объявления: {{ announcement.date }}</p>
+    {% if announcement.owner == user  %}
+        <a class="btn btn-default" href="{% url 'announcement_edit' pk=announcement.pk %}">
+        <span class="glyphicon glyphicon-pencil"></span></a>
+    {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+    <title>Login</title>
+    <meta name="author" content="DOMUM Team" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+
+<img src="{% static 'img/back_img.png' %}" class="background">
+<form method="post" action="{% url 'login' %}" id = "form">
+{% csrf_token %}
+
+<div class="mixbck" id="black"></div>
+    <a href="{% url 'post_list' %}"><p id="logo">DOMUM</p></a>
+    <div id="window">
+        <img src="{% static 'img/google_icon.png' %}" id="google">
+        <img src="">
+        <p class="label" id="label1">Логін</p>
+        <input type="text" id="login" name="username">
+        <p class="label" id="label2">Пароль</p>
+        <input type="password" id="password" name="password">
+        <a href="{% url 'password_reset' %}"><p class="label" id="help">Забули пароль?</p></a>
+    </div>
+    <a onclick="form.submit()" id="button">Увійти</a>
+    <hr class="line" id="line1">
+    <input type="hidden" name="next" value="{{ next }}" />
+    <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a>
+</form>
+
+</body>
+</html>

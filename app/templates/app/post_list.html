@@ -1,0 +1,13 @@
+{% extends 'app/base.html' %}
+{% block title %}Announcements{% endblock %}
+{% block content %}
+    {% for announcement in announcements %}
+        <hr>
+        <div>
+            <h1><a href="{% url 'announcement_view' pk=announcement.pk %}">{{announcement}}</a></h1>
+            <h3><p>Комментарий: {{ announcement.comment }}</p></h3>
+            <h2><p>Владелец: {{ announcement.owner }}</p></h2>
+            <p>Дата подачи объявления: {{ announcement.date }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
