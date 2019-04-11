@@ -4,7 +4,6 @@ body, p, a{
 }
 body{
 	position: fixed;
-	font-family: 'Montserrat', sans-serif;
 }
 .background{
 	margin: 0;
@@ -24,8 +23,9 @@ body{
 	left: 0;
 }
 #logo{
+	font-family: Gadugi;
 	position: absolute;
-	top: 18.5%;
+	top: 18%;
 	left: 35%;
 	font-weight: 700;
 	color: white;
@@ -53,18 +53,19 @@ body{
 	left: 335px;
 }
 .label{
+	font-family: Yu Gothic UI;
+	font-size: 14pt;
 	position: absolute;
 	color: black;
-	font-size: 14pt;
 	left: 50px;
 }
 #label1{
 	top: 74px;
-	font-weight: 500;
+	font-weight: 400;
 }
 #label2{
 	top: 154px;
-	font-weight: 500;
+	font-weight: 400;
 }
 #help{
 	font-size: 11pt;
@@ -74,6 +75,29 @@ body{
 }
 #help:hover{
 	text-decoration: underline;
+}
+#signin{
+	top: 254px;
+	font-size: 12pt;
+	color: white;
+	text-decoration: underline;
+}
+#signin:hover{
+}
+#mismatch{
+	margin-left: 50px;
+	font-family: Yu Gothic UI;
+	font-size: 10pt;
+	color: red;
+	visibility: hidden;
+}
+#nologin{
+	margin-top: -20px;
+	margin-left: 50px;
+	font-family: Yu Gothic UI;
+	font-size: 10pt;
+	color: red;
+	visibility: hidden;
 }
 input{
 	position: absolute;
@@ -95,7 +119,8 @@ input{
 	top: 63%;
 	left: 57%;
 	color: white;
-	font-size: 24pt;
+	font-family: MS Gothic;
+	font-size: 22pt;
 }
 .line{
 	padding: 0;
