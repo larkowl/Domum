@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="style_signin.css" />
-		<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 		<meta charset="UTF-8" />
 		<meta name="author" content="DOMUM Team" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,40 +16,50 @@
 
 				<a href="g_login.html"><img src="imgs/google+.png" id="google"></a>
 
-				<div class="field">
+				<div class="field" id="f1">
 					<p class="label" id="label1">Ім'я</p>
-					<input type="text" id="name">
+					<input type="text" name="name" id="name" required>
 				</div>
 
-				<div class="field">
-					<p class="label" id="label2">Нікнейм</p>
-					<input type="text" id="nick">
+				<div class="field" id="f2">
+					<p class="label" id="label2">Прізвище</p>
+					<input type="text" name="surname" id="surname">
 				</div>
 
 				<div class="field">
 					<p class="label" id="label3">Телефон</p>
-					<input type="tel" id="phone">
+					<input type="tel" name="phone" id="phone" placeholder="+38">
 				</div>
 
 				<div class="field">
 					<p class="label" id="label4">Ел. пошта</p>
-					<input type="email" id="email">
+					<input type="tel" name="email" id="email" required>
 				</div>
 
 				<div class="field">
 					<p class="label" id="label5">Логін</p>
-					<input type="text" id="login">
+					<input type="text" name="login" id="login" required>
 				</div>
 
 				<div class="field">
-					<p class="label" id="label6">Пароль</p>
-					<input type="password" id="password">
+					<p class="label"id="label6">Пароль</p>
+					<input type="password" name="pass" id="password" required>
 				</div>
 
 				<div class="field">
 					<p class="label" id="label7">Ще раз пароль</p>
-					<input type="password" id="passwords">
+					<input type="password" name="repass" id="passwords" required>
 				</div>
+
+				<div id="f3">
+					<p class="label" id="label8">Ваше фото</p>
+					<input type="file" name="photo" id="photo" accept="image/*">
+				</div>
+
+				<a href="login.html"><p class="label" id="alogin">Увійти</p></a>
+
+				<p id="mismatch">Пароль не співпадає!</p>
+				<p id="nologin">Акаунт з таким логіном вже існує</p>
 
 			</div>
 
