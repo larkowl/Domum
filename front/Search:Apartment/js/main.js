@@ -1,4 +1,4 @@
-window.addEventListener('resize', buttonSize);
+let srt = '0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0';
 
 const INDUSTRIALNIY = ['Індустріальна', 'Тракторний завод'];
 const KIIVSKIY = ['Пушкінська', 'Київська', 'Архітектора Бекетова', 'Академіка Барабашова', 'Майдан Конституції'];
@@ -26,6 +26,8 @@ function displaySortSelection()
 		sort.style.display = 'block';
 }
 
+let renting = document.getElementById('goal1');
+let buying = document.getElementById('goal2');
 let rent_term = document.getElementById('rent_term');
 let beds_count = document.getElementById('beds_count');
 let extra_options = document.getElementById('extra_options');
@@ -37,10 +39,23 @@ let house_break = document.getElementById('house_break');
 let garage = document.getElementById('extra_options2');
 let garage_label = document.getElementById('extra_options2_label');
 
-function renting()
+function rentOrBuy()
+{
+	if (renting.checked == true)
+		setRenting();
+	else
+		setBuying();
+}
+
+function setRenting()
 {
 	rent_term.style.display = 'block';
-	beds_count.style.display = 'block';
+
+	if (office.checked == false)
+		beds_count.style.display = 'block';
+	else 
+		beds_count.style.display = 'none';
+
 	extra_options.style.display = 'none';
 	house.style.display = 'none';
 	house_label.style.display = 'none';
@@ -49,7 +64,7 @@ function renting()
 	house_break.style.display = 'none';
 }
 
-function buying()
+function setBuying()
 {
 	rent_term.style.display = 'none';
 	beds_count.style.display = 'none';
@@ -75,14 +90,6 @@ function houseGarage()
 	}
 }
 
-function buttonSize()
-{
-	let screen_width = document.documentElement.clientWidth;
-	let width = (screen_width - 116) / 4.5;
-	let button = document.getElementById('submit');
-	button.style.width = `${width}px`;
-}
-
 function selectStations()
 {
 	let stations = [];
@@ -97,6 +104,18 @@ function selectStations()
 			}
 		}
 	}
+
+	if (stations.length == 0)
+	{
+		for (let i = 0; i < DISTRICTS.length; i++)
+		{
+			for (let k = 0; k < DISTRICTS[i].length; k++)
+			{
+				stations.push(DISTRICTS[i][k]);
+			}
+		}
+	}
+
 	return stations;
 }
 
@@ -127,3 +146,34 @@ function displayStations(stations)
 		parent.appendChild(br);
 	}
 }
+
+function setFilters(status_mask)
+{
+	let status = status_mask.split(' ');
+	let filters = document.querySelectorAll('.filters>div>div>input');
+	let all_stations = document.querySelectorAll('#metro_stations>input');
+
+	for (let i = 0; i < status.length; i++)
+	{
+		if (status[i] == 1)
+			filters[i].checked = true;
+
+		else if (status[i] == 0)
+			filters[i].checked = false;
+
+		else
+			all_stations[+status[i].match(/[0-9]/)[0] - 1].checked = true;
+	}
+}
+
+function initMap()
+{
+	let location = {lat: 50.014870, lng: 36.228017};
+	let options = {center: location, zoom: 15};
+	let container = document.getElementById('map');
+	let map = new google.maps.Map(container, options);
+}
+
+document.addEventListener('DOMContentLoaded', rentOrBuy);
+document.addEventListener('DOMContentLoaded', displayStations(selectStations()));
+document.addEventListener('DOMContentLoaded', setFilters(srt));
