@@ -12,6 +12,15 @@
 		<div class="info__title">2  кімнати, 40 кв.м., 2 гостя, поверх 4/9</div>
 		<div class="info__price">550 грн/доба</div>
 	</div>
+	<div class="slider" id="slider">
+		<img src="img/img.jpg" alt="">
+		<img src="img/img.jpg" alt="">
+		<img src="img/img.jpg" alt="">
+		<img src="img/img.jpg" alt="">
+		<img src="img/img.jpg" alt="">
+	</div>
+	<div class="slider-button slider-button-left" id="slider-button-left"></div>
+	<div class="slider-button slider-button-right" id="slider-button-right"></div>
 	<div class="container-apartment">
 		<div class="apartment-info">
 			<div class="description"><span>Від власника </span>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget."</div>
@@ -58,14 +67,19 @@
 			<div class="address-block">
 				<div class="info-title">пр-т. Московський, 124</div>
 				<div class="info-subtitle"><span>10 хвилин</span> від ст.м. <span>Завод ім.Малишева</span></div>
+				<div class="map" id="map"></div>
 			</div>
 			<div class="date-block">
 				<div class="info-title">Оберіть дати проживання</div>
 				<div class="info-subtitle">вартість на обраний період - <span>0000</span> грн</div>
 				<input type="date" name="" id="">
 			</div>
+			<div class="price-button" id="book-button">ЗАБРОНЮВАТИ</div>
 		</div>
 	</div>
-	<script src="js/main.js"></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKUIe3avEN5YRDIFWe8pZ0ySPj0kRimJc&callback=initMap"></script>
+	<script src="js/slider.js"></script>
+	<script src="js/map_size.js"></script>
+	<script src="js/apartment.js"></script>
 </body>
 </html>
