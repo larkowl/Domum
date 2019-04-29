@@ -10,14 +10,48 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.http import HttpResponse
 from django.utils.encoding import force_bytes, force_text
 from .tokens import account_activation_token
+from django.db.models import Q
 from django.core.mail import EmailMessage
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth import login, authenticate
+from .search_module import *
 
-'''
+
 def post_list(request):
-    return render(request, 'app/post_list.html', {'announcements': Announcement.objects.all()})
-'''
+    if not request.POST:
+        return render(request, 'app/search.html', {'announcements': Announcement.objects
+                      .filter(Q(real_type=1)).order_by('-date'), 'sort': '-date', 'options': ' '.join(STANDART_STR)})
+    try:
+        sort_par, ids, pars = request.POST['sort_par'].split(':')
+        ids = ids.split()
+        pars = pars.split()
+        ids = [int(i) for i in ids]
+        data = []
+        if len(ids) > 0:
+            query = Q(id=ids[0])
+            for i in range(1, len(ids)):
+                query.add(Q(id=ids[i]), Q.OR)
+                data = Announcement.objects.filter(query).order_by(sort_par)
+        return render(request, 'app/search.html', {'announcements': data, 'sort': sort_par,
+                                                  'options': ' '.join(pars)})
+    except:
+        result, pars = search(request.POST)
+        sort_par = request.POST['sort_par']
+        return render(request, 'app/search.html', {'announcements': result.order_by(sort_par), 'sort': sort_par,
+                                                   'options':  ' '.join(pars)})
+
+
+def check_value(str):
+    if str is None:
+        return ''
+    return str
+
+
+def check_str(str):
+    if str == '':
+        return None
+    return str
 
 
 def announcement_view(request, pk):
@@ -34,8 +68,47 @@ class AnnouncementDetailView(generic.DetailView):
 class AnnouncementsListView(generic.ListView):
     model = Announcement
     context_object_name = 'announcements'
-    template_name = 'app/post_list.html'
+    template_name = 'app/search.html'
     paginate_by = 3
+
+
+def profile_view(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    try:
+        person = Person.objects.get(user=user)
+    except:
+        person = None
+    return render(request, 'app/profile.html', {'person': person, 'person_user': user})
+
+
+@login_required
+def profile_edit(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if user != request.user:
+        return redirect('profile', pk=pk)
+    info = dict()
+    info['username'] = check_value(user.username)
+    info['first_name'] = check_value(user.first_name)
+    info['last_name'] = check_value(user.last_name)
+    person = None
+    try:
+        person = Person.objects.get(user=user)
+        info['phone'] = check_value(person.phone)
+    except:
+        info['phone'] = ''
+    if request.method == "POST":
+        if person is None:
+            person = Person()
+            person.user = user
+        user.username = check_str(request.POST['username'])
+        user.first_name = check_str(request.POST['first_name'])
+        user.last_name = check_str(request.POST['last_name'])
+        person.phone = check_str(request.POST['phone'])
+        user.save()
+        person.save()
+        return redirect('profile', pk=pk)
+    form = SignUpForm()
+    return render(request, 'app/profile_edit.html', {'form': form, 'info': info})
 
 
 @login_required
@@ -67,6 +140,24 @@ def announcement_edit(request, pk):
             return redirect('announcement_view', pk=announcement.pk)
     form = AnnouncementForm(instance=announcement)
     return render(request, 'app/announcement_edit.html', {'form': form, 'edit': True})
+
+
+@login_required
+def change_password(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if user != request.user:
+        return redirect('profile', pk=pk)
+    if request.method == 'POST':
+        psw = None
+        if user.has_usable_password():
+            psw = request.POST['old']
+        n_first = request.POST['new']
+        n_second = request.POST['repeat']
+        if (psw is None or check_password(psw, user.password)) and n_first == n_second:
+            user.set_password(n_first)
+            user.save()
+            return redirect('profile_edit', pk=user.pk)
+    return render(request, 'app/change_password.html', {'passworded': user.has_usable_password()})
 
 
 def signup(request):
@@ -127,7 +218,7 @@ def activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        login(request, user)
-        return redirect('post_list')
+        login(request, user, backend='django.contrib.auth')
+        return redirect('login')
     else:
         return HttpResponse('Activation link is invalid!')

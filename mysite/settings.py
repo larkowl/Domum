@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',  # <--
     'app',
 ]
 
@@ -45,6 +46,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',  # <--
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -60,10 +62,21 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',  # <--
+                'social_django.context_processors.login_redirect', # <--
             ],
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 LOGIN_REDIRECT_URL = '/'
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
@@ -124,6 +137,11 @@ EMAIL_HOST_USER = 'itsmevanster@gmail.com'
 EMAIL_HOST_PASSWORD = 'vjityybr206'
 DEFAULT_FROM_EMAIL = 'DOMUM'
 DEFAULT_TO_EMAIL = 'itsmevanster@gmail.com'
-FACEBOOK_APP_ID = '2169403759844589'
-FACEBOOK_API_SECRET = '6edc10fc78629f607efdc9071c4c5b06'
+SOCIAL_AUTH_FACEBOOK_KEY = '318891998807573'
+SOCIAL_AUTH_FACEBOOK_SECRET = '96aea052871f6725118aa1d8359b9b10'
+SOCIAL_AUTH_GITHUB_KEY = '3d670bc6cf409d843cdc'
+SOCIAL_AUTH_GITHUB_SECRET = 'dce206e78292e29c06f5cd8b0ee27fb2e6c2f5e6'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '283538226968-v82up0svtk29e48gaa5gshbj84n6p13o.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'xe2Xhg4MbpHYlkIPdy4Aiweu'
+#SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 
