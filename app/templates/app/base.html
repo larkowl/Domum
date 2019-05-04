@@ -9,9 +9,7 @@
 </head>
 <body>
 <div align="center">
-    {% if user.is_authenticated %}
-        <a href="{% url 'profile' pk=user.pk %}">{{user}}</a>
-    {% endif %}
+{{user}}
 <div>
     <a href="{% url 'new_announcement' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
     <h1><a href="/">DOMUM)))</a></h1>
