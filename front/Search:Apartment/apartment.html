@@ -10,7 +10,7 @@
 <body>
 	<div class="info-block">
 		<div class="info__title">2  кімнати, 40 кв.м., 2 гостя, поверх 4/9</div>
-		<div class="info__price">550 грн/доба</div>
+		<div class="info__price"><span id="price">550</span> грн/доба</div>
 	</div>
 	<div class="slider" id="slider">
 		<img src="img/img.jpg" alt="">
@@ -71,8 +71,63 @@
 			</div>
 			<div class="date-block">
 				<div class="info-title">Оберіть дати проживання</div>
-				<div class="info-subtitle">вартість на обраний період - <span>0000</span> грн</div>
-				<input type="date" name="" id="">
+				<div class="info-subtitle">вартість на обраний період - <span id="total_price">0</span> грн</div>
+				<div class="calendar-switcher">
+					<div class="switcher-prev" id="prev_month"></div>
+					<div class="switcher-curr" id="curr_month"></div>
+					<div class="switcher-next" id="next_month"></div>
+				</div>
+				<div class="calendar" id="calendar">
+					<div class="calendar-week"><br>Пн</div>
+					<div class="calendar-week"><br>Вт</div>
+					<div class="calendar-week"><br>Ср</div>
+					<div class="calendar-week"><br>Чт</div>
+					<div class="calendar-week"><br>Пт</div>
+					<div class="calendar-week"><br>Сб</div>
+					<div class="calendar-week"><br>Вс</div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+					<div class="calendar-cell"></div>
+				</div>
 			</div>
 			<div class="price-button" id="book-button">ЗАБРОНЮВАТИ</div>
 		</div>
@@ -81,5 +136,6 @@
 	<script src="js/slider.js"></script>
 	<script src="js/map_size.js"></script>
 	<script src="js/apartment.js"></script>
+	<script src="js/calendar.js"></script>
 </body>
 </html>
