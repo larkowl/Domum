@@ -1,0 +1,13 @@
+{% block sale_ap %}
+<div class="cards-item">
+    <p class="cards-item__title">
+                        {{ announcement.street_type }} {{ announcement.street }}, {{ announcement.home_number }}
+    </p>
+    <div class="cards-item__img">
+        <img width="100%" src="" alt="">
+    </div>
+    <div class="cards-item__text">{{ announcement.comment }}</div>
+    <div class="cards-item__price">{{ announcement.price }} грн
+    </div>
+</div>
+{% endblock %}

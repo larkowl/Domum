@@ -1,0 +1,16 @@
+{% extends 'app/base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+    <p>{{ person_user.first_name }}</p>
+    <p>{{ person_user.last_name }}</p>
+    <p>Рейтинг</p>
+    {% if user.is_authenticated %}
+    <p>{{ person_user.email }}</p>
+    <p>{{ person.phone }}</p>
+    {% if user == person_user %}
+        <a class="btn btn-default" href="{% url 'profile_edit' pk=person_user.pk  %}"></a>
+    {% endif %}
+    {% else %}
+        <a class="btn btn-default" href="{% url 'login' %}?next=/users/{{ person_user.pk }}">Посмотреть дополнительную информацию</a>
+    {% endif %}
+{% endblock %}
