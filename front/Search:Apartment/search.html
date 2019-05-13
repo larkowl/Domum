@@ -7,17 +7,16 @@
 	<link rel="stylesheet" href="css/style.css">
 	<title>Search</title>
 </head>
-<body onload="buttonSize()">
-	<div class="header"></div>
+<body>
 	<div class="container-search">
 		<form class="filters">
 			<div class="filters-block">
 				<div class="filters-block__title">&nbsp;Мета пошуку&nbsp;</div>
 				<div class="filters-block__options">
-					<input type="radio" name="goal" id="goal1" checked onchange="renting()">
+					<input type="radio" name="goal" id="goal1">
 					<label for="goal1">оренда житла</label>
 					<br>
-					<input type="radio" name="goal" id="goal2" onchange="buying()">
+					<input type="radio" name="goal" id="goal2">
 					<label for="goal2">купівля житла</label>
 				</div>
 			</div>
@@ -34,18 +33,18 @@
 			<div class="filters-block">
 				<div class="filters-block__title">&nbsp;Тип житла&nbsp;</div>
 				<div class="filters-block__options">
-					<input type="checkbox" name="type" id="type1">
+					<input type="radio" name="type" id="type1">
 					<label for="type1">квартира</label>
 					<br>
-					<input type="checkbox" name="type" id="type2" onchange="houseGarage()">
+					<input type="radio" name="type" id="type2">
 					<label for="type2" id="type2_label">дім</label>
 					<br id="house_break">
-					<input type="checkbox" name="type" id="type3">
+					<input type="radio" name="type" id="type3">
 					<label for="type3" id="type3_label">офіс</label>
 				</div>
 			</div>
 			<div class="filters-block">
-				<div class="filters-block__title">&nbsp;Поверх / кількість поверхів&nbsp;</div>
+				<div class="filters-block__title">&nbsp;<span id="floors"></span>&nbsp;</div>
 				<div class="filters-block__options">
 					<input type="checkbox" name="floor" id="floor1">
 					<label for="floor1">1</label>
@@ -76,13 +75,7 @@
 					<label for="rooms_number3">3</label>
 					<br>
 					<input type="checkbox" name="rooms_number" id="rooms_number4">
-					<label for="rooms_number4">4</label>
-					<br>
-					<input type="checkbox" name="rooms_number" id="rooms_number5">
-					<label for="rooms_number5">5</label>
-					<br>
-					<input type="checkbox" name="rooms_number" id="rooms_number6">
-					<label for="rooms_number6">6 і більше</label>
+					<label for="rooms_number4">4 і більше</label>
 				</div>
 			</div>
 			<div class="filters-block">
@@ -133,7 +126,7 @@
 				<div class="filters-block__title">&nbsp;Додаткові параметри&nbsp;</div>
 				<div class="filters-block__options">
 					<input type="checkbox" name="extra_options" id="extra_options1">
-					<label for="extra_options1">наявність меблів</label>
+					<label for="extra_options1" id="furniture"></label>
 					<br>
 					<input type="checkbox" name="extra_options" id="extra_options2">
 					<label for="extra_options2" id="extra_options2_label">наявність гаражу</label>
@@ -161,34 +154,34 @@
 					<label for="beds_number6">6 і більше</label>
 				</div>
 			</div>
-			<div class="filters-block">
+			<div class="filters-block" id="districts">
 				<div class="filters-block__title">&nbsp;Район міста&nbsp;</div>
 				<div class="filters-block__options">
-					<input type="checkbox" name="district" id="district1" onchange="displayStations(selectStations())">
+					<input type="checkbox" name="district" id="district1">
 					<label for="district1">Індустріальний</label>
 					<br>
-					<input type="checkbox" name="district" id="district2" onchange="displayStations(selectStations())">
+					<input type="checkbox" name="district" id="district2">
 					<label for="district2">Київський</label>
 					<br>
-					<input type="checkbox" name="district" id="district3" onchange="displayStations(selectStations())">
+					<input type="checkbox" name="district" id="district3">
 					<label for="district3">Московський</label>
 					<br>
-					<input type="checkbox" name="district" id="district4" onchange="displayStations(selectStations())">
+					<input type="checkbox" name="district" id="district4">
 					<label for="district4">Немишлянський</label>
 					<br>
-					<input type="checkbox" name="district" id="district5" onchange="displayStations(selectStations())">
+					<input type="checkbox" name="district" id="district5">
 					<label for="district5">Новобаварський</label>
 					<br>
-					<input type="checkbox" name="district" id="district6" onchange="displayStations(selectStations())">
+					<input type="checkbox" name="district" id="district6">
 					<label for="district6">Основ'янський</label>
 					<br>
-					<input type="checkbox" name="district" id="district7" onchange="displayStations(selectStations())">
+					<input type="checkbox" name="district" id="district7">
 					<label for="district7">Слобідський</label>
 					<br>
-					<input type="checkbox" name="district" id="district8" onchange="displayStations(selectStations())">
+					<input type="checkbox" name="district" id="district8">
 					<label for="district8">Холодногірський</label>
 					<br>
-					<input type="checkbox" name="district" id="district9" onchange="displayStations(selectStations())">
+					<input type="checkbox" name="district" id="district9">
 					<label for="district9">Шевченківський</label>
 				</div>
 			</div>
@@ -280,23 +273,24 @@
 			</a>
 		</div>
 		<div class="price">
-			<div class="price-sort__title" onclick="displaySortSelection()">Сортування<span class="arrows">&darr;&uarr;</span></div>
+			<div class="price-sort__title" id="select_sort_title">Сортування<span class="arrows">&darr;&uarr;</span></div>
 			<div class="price-sort" id="select_sort">
-				<a class="price-sort__option" href="#" onclick="displaySortSelection()">А-Я</a>
-				<a class="price-sort__option" href="#" onclick="displaySortSelection()">Від дорожчого</a>
-				<a class="price-sort__option" href="#" onclick="displaySortSelection()">Від дешевшего</a>
-				<a class="price-sort__option" href="#" onclick="displaySortSelection()">За оцінкою</a>
+				<a class="price-sort__option" href="#">А-Я</a>
+				<a class="price-sort__option" href="#">Від дорожчого</a>
+				<a class="price-sort__option" href="#">Від дешевшего</a>
+				<a class="price-sort__option" href="#">За оцінкою</a>
 			</div>
 			<div class="filters-block">
 				<div class="filters-block__title">&nbsp;На яку ціну ви розраховуєте?&nbsp;</div>
 				<div class="filters-block__options">
-					<input type="number" class="input__number" name="supposed_price" id="supposed_price">
+					<input type="number" class="input__number" name="supposed_price" id="supposed_price"><span>&nbsp;грн</span>
 				</div>
 			</div>
-			<div class="price-button" onclick="displayPrice()">ПОКАЗАТИ ПРОПОНОВАНУ ЦІНУ ЗА ОБРАНИМИ ПАРАМЕТРАМИ</div>
+			<div class="price-button" id="suggested_price_button">ПОКАЗАТИ ПРОПОНОВАНУ ЦІНУ ЗА ОБРАНИМИ ПАРАМЕТРАМИ</div>
 			<div class="price-button" id="suggested_price">850 грн/доба</div>
 		</div>
 	</div>
-	<script src="js/main.js"></script>
+	<script src="js/search.js"></script>
+	<script src="js/button_size.js"></script>
 </body>
 </html>
