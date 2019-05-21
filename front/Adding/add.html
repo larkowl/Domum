@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="css/style.css">
+	<title>Add</title>
+</head>
+<body>
+	<div class="container-search">
+		<form class="filters">
+			<div class="filters-block filters-block__white">
+				<div class="filters-block__title">&nbsp;Мета пошуку&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="radio" name="goal" id="goal1">
+					<label for="goal1">оренда житла</label>
+					<br>
+					<input type="radio" name="goal" id="goal2">
+					<label for="goal2">купівля житла</label>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white" id="rent_term">
+				<div class="filters-block__title">&nbsp;Строк оренди&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="radio" name="term" id="term1">
+					<label for="term1">довгострокова</label>
+					<br>
+					<input type="radio" name="term" id="term2">
+					<label for="term2">добова</label>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white">
+				<div class="filters-block__title">&nbsp;Тип житла&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="radio" name="type" id="type1">
+					<label for="type1">квартира</label>
+					<br>
+					<input type="radio" name="type" id="type2">
+					<label for="type2" id="type2_label">дім</label>
+					<br id="house_break">
+					<input type="radio" name="type" id="type3">
+					<label for="type3" id="type3_label">офіс</label>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white">
+				<div class="filters-block__title">&nbsp;Рівень ремонту&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="radio" name="repair_rate" id="repair_rate1">
+					<label for="repair_rate1">0</label>
+					<br>
+					<input type="radio" name="repair_rate" id="repair_rate2">
+					<label for="repair_rate2">1</label>
+					<br>
+					<input type="radio" name="repair_rate" id="repair_rate3">
+					<label for="repair_rate3">2</label>
+					<br>
+					<input type="radio" name="repair_rate" id="repair_rate4">
+					<label for="repair_rate4">3</label>
+					<br>
+					<input type="radio" name="repair_rate" id="repair_rate5">
+					<label for="repair_rate5">4</label>
+					<br>
+					<input type="radio" name="repair_rate" id="repair_rate6">
+					<label for="repair_rate6">5</label>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white" id="extra_options">
+				<div class="filters-block__title">&nbsp;Додаткові параметри&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="checkbox" name="extra_options" id="extra_options1">
+					<label for="extra_options1" id="furniture"></label>
+					<br>
+					<input type="checkbox" name="extra_options" id="extra_options2">
+					<label for="extra_options2" id="extra_options2_label">наявність гаражу</label>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white" id="districts">
+				<div class="filters-block__title">&nbsp;Район міста&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="radio" name="district" id="district1">
+					<label for="district1">Індустріальний</label>
+					<br>
+					<input type="radio" name="district" id="district2">
+					<label for="district2">Київський</label>
+					<br>
+					<input type="radio" name="district" id="district3">
+					<label for="district3">Московський</label>
+					<br>
+					<input type="radio" name="district" id="district4">
+					<label for="district4">Немишлянський</label>
+					<br>
+					<input type="radio" name="district" id="district5">
+					<label for="district5">Новобаварський</label>
+					<br>
+					<input type="radio" name="district" id="district6">
+					<label for="district6">Основ'янський</label>
+					<br>
+					<input type="radio" name="district" id="district7">
+					<label for="district7">Слобідський</label>
+					<br>
+					<input type="radio" name="district" id="district8">
+					<label for="district8">Холодногірський</label>
+					<br>
+					<input type="radio" name="district" id="district9">
+					<label for="district9">Шевченківський</label>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white">
+				<div class="filters-block__title">&nbsp;Відстань до метро&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="radio" name="minutes_to_metro" id="minutes_to_metro1">
+					<label for="minutes_to_metro1">1 хвилина</label>
+					<br>
+					<input type="radio" name="minutes_to_metro" id="minutes_to_metro2">
+					<label for="minutes_to_metro2">3 хвилини</label>
+					<br>
+					<input type="radio" name="minutes_to_metro" id="minutes_to_metro3">
+					<label for="minutes_to_metro3">5 хвилин</label>
+					<br>
+					<input type="radio" name="minutes_to_metro" id="minutes_to_metro4">
+					<label for="minutes_to_metro4">10 хвилин</label>
+					<br>
+					<input type="radio" name="minutes_to_metro" id="minutes_to_metro5">
+					<label for="minutes_to_metro5">20 хвилин</label>
+					<br>
+					<input type="radio" name="minutes_to_metro" id="minutes_to_metro6">
+					<label for="minutes_to_metro6">30 і більше хвилин</label>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white">
+				<div class="filters-block__title">&nbsp;Найближча станція метро&nbsp;</div>
+				<div class="filters-block__options" id="metro_stations"></div>
+			</div>
+			<div class="filters-block filters-block__green">
+				<div class="filters-block__title__white">&nbsp;Ціна&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="number" class="input__number__white" name="price" id="price"><span style="color: white; font-size: 16px">&nbsp;грн</span>
+				</div>
+			</div>
+			<div class="price-button__green" id="suggested_price_button">ПОКАЗАТИ ПРОПОНОВАНУ ЦІНУ ЗА ОБРАНИМИ ПАРАМЕТРАМИ</div>
+			<div class="price-button__green" id="suggested_price_green">850 грн/доба</div>
+		</form>
+		<div class="photos">
+			<div class="photos-container"></div>
+			<div class="photos-subtitle">Додайте мінімум 4 фото Вашого об'єкта. Фото мають бути якісними, з великою роздільною здатністю. Основним рекомендується обрати фото, на якому добре видно інтер'єр або спальне ліжко.</div>
+			<textarea class="apartment-description" name="apartment_description" id="apartment_description" placeholder="Опишіть Ваш об'єкт, вкажіть особливості, правила та інше"></textarea>
+			<div class="address">
+				<div class="address-title">Адреса</div>
+				<div class="address-block">
+					<div class="address-city">Харків</div>
+					<input type="text" class="address-input" name="address" id="address" placeholder="Введіть адресу">
+				</div>
+			</div>
+		</div>
+		<form class="filters-extended">
+			<div class="filters-block filters-block__white">
+				<div class="filters-block__title">&nbsp;Введіть кількість кімнат&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="number" class="input__number" name="rooms_number" id="rooms_number"><span>&nbsp;к</span>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white">
+				<div class="filters-block__title">&nbsp;Введіть житлову площу&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="number" class="input__number" name="living_space" id="living_space"><span>&nbsp;кв.м</span>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white">
+				<div class="filters-block__title">&nbsp;<span id="floors"></span>&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="number" class="input__number" name="floor" id="floor"><span>&nbsp;п</span>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white" id="beds_count">
+				<div class="filters-block__title">&nbsp;Кількість спальних місць&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="number" class="input__number" name="beds_number" id="beds_number"><span>&nbsp;шт</span>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<script src="js/add.js"></script>
+</body>
+</html>
