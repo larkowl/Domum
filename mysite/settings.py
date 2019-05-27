@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'social_django',  # <--
     'app',
+    'django_cleanup',
+    'liqpay',
 ]
 
 MIDDLEWARE = [
@@ -115,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
 TIME_ZONE = 'Europe/Kiev'
-LANGUAGE_CODE = 'ru-ru'
+LANGUAGE_CODE = 'uk-uk'
 
 USE_I18N = True
 
@@ -123,6 +125,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -144,4 +148,21 @@ SOCIAL_AUTH_GITHUB_SECRET = 'dce206e78292e29c06f5cd8b0ee27fb2e6c2f5e6'
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '283538226968-v82up0svtk29e48gaa5gshbj84n6p13o.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'xe2Xhg4MbpHYlkIPdy4Aiweu'
 #SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+
+LIQPAY_PUBLIC_KEY = 'i22508723633'
+LIQPAY_PRIVATE_KEY = '6LjK96jf1dkGpfAfSdUhc35lEm9r9HcF5elXGLsM'
+
+SOCIAL_AUTH_CREATE_USERS = True
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.social_auth.associate_by_email',  # <--- enable this one
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)
 

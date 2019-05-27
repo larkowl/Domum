@@ -1,0 +1,24 @@
+{% extends 'app/base.html' %}
+{% block title %}
+    {% if edit %}
+        Редактирование объявления
+    {% else %}
+        Добавление объявления
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <hr>
+    <h1>
+    {% if edit %}
+        Редактирование объявления
+    {% else %}
+        Добавление объявления
+    {% endif %}
+    </h1>
+    <form method="POST">{% csrf_token %}
+        <table>
+            {{ form }}
+        </table>
+        <button type="submit" class="save btn btn-default">Сохранить</button>
+    </form>
+{% endblock %}

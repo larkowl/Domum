@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+		<meta charset="UTF-8" />
+		<meta name="author" content="DOMUM Team" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Log In</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+	</head>
+	<body>
+
+        {% if form.errors %}
+            <p>Your username and password didn't match. Please try again.</p>
+        {% endif %}
+
+        {% if next %}
+            {% if user.is_authenticated %}
+            <p>Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+            {% endif %}
+        {% endif %}
+
+        <img src="{% static 'img/back_img.png' %}" class="background">
+
+		<div class="mixbck" id="black"></div>
+			<a href="{% url 'post_list' %}"><p id="logo"><span id="biglett">DOM</span><span id="smalllett">UM</span></p></a>
+            <form method="post" action="{% url 'login' %}" id = "form">
+            {% csrf_token %}
+
+			<div id="window">
+
+				<a href="{% url 'social:begin' 'google-oauth2' %}">
+                    <img src="{% static 'img/google_icon.png' %}" id="google">
+                </a>
+
+				<p class="label" id="label1">Логін</p>
+				<input type="text" id="login" name="username">
+				<p class="label" id="label2">Пароль</p>
+				<input type="password" id="password" name="password" onkeyup="if (event.which == 13) form.submit()">
+				<a href="{% url 'password_reset' %}"><p class="label" id="help">Забули пароль?</p></a>
+
+			</div>
+
+			<a onclick="form.submit()"><p id="button">Увійти</p>
+                <input type="hidden" name="next" value="{{ next }}" />
+			<hr class="line" id="line1"></a>
+            </form>
+	</body>
+</html>

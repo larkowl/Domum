@@ -2,9 +2,23 @@ from .models import Announcement
 from copy import deepcopy
 from django.db.models import Q
 
-STANDART_STR = ['0', '1', '1', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
+STANDART_STR = ['0', '1', '1', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
                 '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
                 '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
+LONG_TERM_RENT_STR = ['1', '0', '1', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
+                '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
+                '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
+
+
+def define_real_goal_term(a):
+    term, goal = 0, 0
+    if a == 3:
+        term = 1
+    if a == 1:
+        goal = 1
+    if a == 4:
+        goal = 1
+    return term, goal
 
 
 def _define_real_type(a, b, c):
@@ -39,7 +53,7 @@ def _search_form(form):
         form_data['floor'] = [1, 2, 3, 4, 5]
     form_data['rooms'] = list(map(int, form.getlist('rooms_number')))
     if len(form_data['rooms']) == 0:
-        form_data['rooms'] = [1, 2, 3, 4, 5, 6]
+        form_data['rooms'] = [1, 2, 3, 4]
     form_data['space'] = list(map(int, form.getlist('living_space')))
     if len(form_data['space']) == 0:
         form_data['space'] = [0, 1, 2, 3, 4, 5]
@@ -88,19 +102,20 @@ def form_str(options):
     elif options['type'] == 4:
         result[4], result[5], result[6] = '0', '1', '0'
     fill('floor', 5, 6)
-    fill('rooms', 6, 11)
-    fill('space', 6, 18)
-    fill('repair', 6, 24)
+    fill('rooms', 4, 11)
+    fill('space', 6, 16)
+    fill('repair', 6, 22)
     if options['furniture']:
-        result[30] = '1'
+        result[28] = '1'
     if options['garage']:
-        result[31] = '1'
-    fill('beds', 6, 31)
-    fill('district', 9, 38)
+        result[29] = '1'
+    fill('beds', 6, 29)
+    fill('district', 9, 36)
+    print(options['district'])
     if len(options['metro']) != 6:
         d = {1: 0, 3: 1, 5: 2, 10: 3, 20: 4, 30: 5}
         for i in options['metro']:
-            result[47 + d[i]] = '1'
+            result[45 + d[i]] = '1'
     result += options['metro_ids']
     return result
 
@@ -124,11 +139,13 @@ def search(form):
     query = Q(distance_to_metro=options['metro'][0])
     for i in range(1, len(options['metro'])):
         query.add(Q(distance_to_metro=options['metro'][i]), Q.OR)
+    if 30 in options['metro']:
+        query.add(Q(distance_to_metro__gte=30), Q.OR)
     qs = qs.filter(query)
 
-    query = Q(district=options['district'][0])
+    query = Q(district__pseudo_id=options['district'][0])
     for i in range(1, len(options['district'])):
-        query.add(Q(district=options['district'][i]), Q.OR)
+        query.add(Q(district__pseudo_id=options['district'][i]), Q.OR)
     qs = qs.filter(query)
 
     query = (Q(area__gte=options['space'][0] * 20) & Q(area__lte=options['space'][0] * 20 + 20))
@@ -141,8 +158,8 @@ def search(form):
     query = Q(rooms_number=options['rooms'][0])
     for i in range(1, len(options['rooms'])):
         query.add(Q(rooms_number=options['rooms'][i]), Q.OR)
-    if 6 in options['rooms']:
-        query.add(Q(rooms_number__gte=6), Q.OR)
+    if 4 in options['rooms']:
+        query.add(Q(rooms_number__gte=4), Q.OR)
     qs = qs.filter(query)
 
     query = Q(repairs=options['repair'][0])

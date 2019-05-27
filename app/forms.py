@@ -14,6 +14,7 @@ class AnnouncementForm(forms.ModelForm):
 
 class SignUpForm(UserCreationForm):
     phone = forms.CharField(max_length=20, required=False)
+
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'phone', 'email', 'password1', 'password2')

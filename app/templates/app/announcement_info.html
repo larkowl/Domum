@@ -1,0 +1,27 @@
+{% if announcement.rooms_number == 1 %}
+    1 кімната •
+{% elif announcement.rooms_number < 5 %}
+    {{ announcement.rooms_number }} кімнати •
+{% else %}
+    {{ announcement.rooms_number }} кімнат •
+{% endif %}
+{% if announcement.real_type.pk == 2 or announcement.real_type.pk == 3 %}
+    {% if announcement.beds == 1 %}
+    {{ announcement.beds }} спальне місце •
+    {% elif announcement.beds < 5 %}
+        {{ announcement.beds }} спальних місця •
+    {% else %}
+        {{ announcement.beds }} спальних місць •
+    {% endif %}
+{% endif %}
+{{ announcement.area }} м<sup>2</sup> • ремонт {{ announcement.repairs }}/5
+{% if announcement.furniture %}
+{% if announcement.real_type.pk == 2 or announcement.real_type.pk == 3 %} • зі зручностями
+{% else %} • з меблем
+{% endif %}
+{% endif %}
+{% if announcement.real_type.pk == 4 and announcement.garage %}
+     • є гараж
+{% endif %}
+<br>
+Власник: <a style="color: white;" href="{% url 'profile' pk=announcement.owner.pk %}"><u>{{ announcement.owner }}</u></a>

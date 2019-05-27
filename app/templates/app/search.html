@@ -1,14 +1,8 @@
+{% extends 'app/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<link rel="stylesheet" href="{% static 'css/search&anview.css' %}">
-	<title>Home</title>
-</head>
-<body>
+{% block styles %}<link rel="stylesheet" href="{% static 'css/search&anview.css' %}">{% endblock %}
+{% block title %}Announcements{% endblock %}
+{% block content %}
 	<div class="header"></div>
 	<div class="container-search">
 		<form class="filters" method="POST" id="form" action="{% url 'post_list' %}">{% csrf_token %}
@@ -46,7 +40,7 @@
 				</div>
 			</div>
 			<div class="filters-block">
-				<div class="filters-block__title">&nbsp;Поверх / кількість поверхів&nbsp;</div>
+				<div class="filters-block__title">&nbsp;<span id="floors"></span>&nbsp;</div>
 				<div class="filters-block__options">
 					<input type="checkbox" name="floor" id="floor1" value="1">
 					<label for="floor1">1</label>
@@ -77,20 +71,14 @@
 					<label for="rooms_number3">3</label>
 					<br>
 					<input type="checkbox" name="rooms_number" id="rooms_number4" value="4">
-					<label for="rooms_number4">4</label>
-					<br>
-					<input type="checkbox" name="rooms_number" id="rooms_number5" value="5">
-					<label for="rooms_number5">5</label>
-					<br>
-					<input type="checkbox" name="rooms_number" id="rooms_number6" value="6">
-					<label for="rooms_number6">6 і більше</label>
+					<label for="rooms_number4">4 і більшк</label>
 				</div>
 			</div>
 			<div class="filters-block">
 				<div class="filters-block__title">&nbsp;Житлова площа, кв.м&nbsp;</div>
 				<div class="filters-block__options">
 					<input type="checkbox" name="living_space" id="living_space1" value="0">
-					<label for="living_space1">0 - 20</label>
+					<label for="living_space1">1 - 20</label>
 					<br>
 					<input type="checkbox" name="living_space" id="living_space2" value="1">
 					<label for="living_space2">20 - 40</label>
@@ -134,7 +122,7 @@
 				<div class="filters-block__title">&nbsp;Додаткові параметри&nbsp;</div>
 				<div class="filters-block__options">
 					<input type="checkbox" name="extra_options" id="extra_options1" value="0">
-					<label for="extra_options1">наявність меблів</label>
+					<label for="extra_options1" id="furniture">наявність меблів</label>
 					<br>
 					<input type="checkbox" name="extra_options" id="extra_options2" value="1">
 					<label for="extra_options2" id="extra_options2_label">наявність гаражу</label>
@@ -224,14 +212,15 @@
 					<label for="minutes_to_metro6">30 і більше хвилин</label>
 				</div>
 			</div>
+
+            <input type="hidden" name="sort_par" value="{{ sort }}">
 			<button class="price-button submit-button" id="submit">Применить</button>
-			<div class="filters-block">
+            <div class="filters-block">
 				<div class="filters-block__title">&nbsp;Найближча станція метро&nbsp;</div>
 				<div class="filters-block__options" id="metro_stations">
 
 				</div>
 			</div>
-            <input type="hidden" name="sort_par" value="{{ sort }}">
 		</form>
 		<div class="cards">
             {% for announcement in announcements %}
@@ -245,7 +234,17 @@
 		</div>
 		<div class="price">
         <form method="post" action="{% url 'post_list' %}" id="sort_form"> {% csrf_token %}
-			<div class="price-sort__title" id="select_sort_title">Сортування<span class="arrows">&darr;&uarr;</span></div>
+			<div class="price-sort__title" id="select_sort_title">
+                {% if sort == '-date' %}
+                    За датою
+                {% elif sort == '-price' %}
+                    Від дорожчого
+                {% elif sort == 'price' %}
+                    Від дешевшего
+                {% elif sort == 'rate' %}
+                    За оцінкою
+                {% endif %}
+                <span class="arrows">&darr;&uarr;</span></div>
 			<div class="price-sort" id="select_sort">
                 <input type="hidden" id="sort_par" value="{{ sort }}" name="sort_par">
 				<a class="price-sort__option" onclick=sorting('-date')>
@@ -264,7 +263,7 @@
 			<div class="filters-block">
 				<div class="filters-block__title">&nbsp;На яку ціну ви розраховуєте?&nbsp;</div>
 				<div class="filters-block__options">
-					<input type="number" class="input__number" name="supposed_price" id="supposed_price">
+					<input type="number" class="input__number" name="supposed_price" id="supposed_price"><span>&nbsp;грн</span>
 				</div>
 			</div>
 			<div class="price-button" id="suggested_price_button">ПОКАЗАТИ ПРОПОНОВАНУ ЦІНУ ЗА ОБРАНИМИ ПАРАМЕТРАМИ</div>
@@ -281,5 +280,4 @@
     </script>
 	<script src="{% static 'js/search&anview.js' %}"></script>
     <script src="{% static 'js/button_size.js' %}"></script>
-</body>
-</html>
+{% endblock %}

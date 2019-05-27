@@ -29,8 +29,10 @@ let buying = document.getElementById('goal2');
 let rent_term = document.getElementById('rent_term');
 let long_term = document.getElementById('term1');
 let day_term = document.getElementById('term2');
+let floors = document.getElementById('floors');
 let beds_count = document.getElementById('beds_count');
 let extra_options = document.getElementById('extra_options');
+let furniture = document.getElementById('furniture');
 let apartment = document.getElementById('type1');
 let house = document.getElementById('type2');
 let office = document.getElementById('type3');
@@ -55,6 +57,20 @@ function setRenting()
 	if (long_term.checked == false && day_term.checked == false)
 		long_term.checked = true;
 
+	if (day_term.checked == true)
+	{
+		office.style.display = 'none';
+		office_label.style.display = 'none';
+		office.checked = false;
+		apartment.checked = true;
+	}
+
+	else
+	{
+		office.style.display = 'inline-block';
+		office_label.style.display = 'inline-block';
+	}
+
 	if (office.checked == false)
 	{
 		beds_count.style.display = 'block';
@@ -75,10 +91,10 @@ function setRenting()
 		apartment.checked = true;
 	}
 
+	floors.innerHTML = 'Поверх';
+
 	house.style.display = 'none';
 	house_label.style.display = 'none';
-	office.style.display = 'inline-block';
-	office_label.style.display = 'inline-block';
 	house_break.style.display = 'none';
 
 	if (garage.checked == true)
@@ -86,6 +102,8 @@ function setRenting()
 
 	garage.style.display = 'none';
 	garage_label.style.display = 'none';
+
+	furniture.innerHTML = 'наявність зручностей';
 }
 
 function setBuying()
@@ -112,6 +130,7 @@ function setBuying()
 	{
 		garage.style.display = 'inline-block';
 		garage_label.style.display = 'inline-block';
+		floors.innerHTML = 'Кількість поверхів';
 	}
 
 	else
@@ -119,7 +138,10 @@ function setBuying()
 		garage.checked = false;
 		garage.style.display = 'none';
 		garage_label.style.display = 'none';
+		floors.innerHTML = 'Поверх';
 	}
+
+	furniture.innerHTML = 'наявність меблів';
 }
 
 function cancelSelectionAll(id)

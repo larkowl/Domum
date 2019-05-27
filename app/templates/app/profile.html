@@ -7,6 +7,7 @@
     {% if user.is_authenticated %}
     <p>{{ person_user.email }}</p>
     <p>{{ person.phone }}</p>
+        <p><img src="/media/{{ person.ava }}"></p>
     {% if user == person_user %}
         <a class="btn btn-default" href="{% url 'profile_edit' pk=person_user.pk  %}"></a>
     {% endif %}

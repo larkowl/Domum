@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="{% static 'css/land.css' %}" />
+		<!--<link rel="shortcut icon" href="imgs/icon.ico" />-->
+		<meta charset="UTF-8" />
+		<meta name="author" content="DOMUM Team" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>DOMUM: Головна</title>
+	</head>
+
+	<body>
+		<section>
+        <a href="{% url 'land' %}">
+			<img src="{% static 'img/back_land.png' %}" class="background">
+			<div class="mixbck" id="black">
+				<div id="nav">
+					<p id="logo"><span id="biglett">DOM</span><span id="smalllett">UM</span></p>			
+                    <a href="{% url 'new_announcement' %}"><p class="nav" id="nav_addad">Подати оголошення</p></a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile' pk=user.pk %}"><img src="{% static 'img/acc.png' %}" id="acc_logo">
+                        <p class="nav" id="nav_signin">{{ user.username }}</p></a>
+					    <a href="{% url 'logout' %}"><p class="nav" id="nav_login">Вийти</p></a>
+                    {% else %}
+					<a href="{% url 'login' %}"><p class="nav" id="nav_login">Увійти</p></a>
+                    {% endif %}
+				</div>
+				
+                <a href="{% url 'post_list' %}"><p id="slogan">Знайди житло своєї мрії</p></a>
+				<hr class="line" id="line1">
+			</div>
+        </a>
+		</section>
+
+		<section>
+			<div class="mixbck" id="green">
+
+                <a href="{% url 'post_list' pk=9 %}"><p id="best">Найкращі пропозиції</p></a>
+				<hr class="line" id="line2">
+                {% for i in len %}
+				<div class="board">
+                    {% if i == 0 %}
+                        <a href="{% url 'post_list' pk=l0.0.district.pk %}"><p class="distr">{{l0.0.district}}</p></a>
+                        {% for announcement in l0 %}
+                            <div class="adds">
+                            <a href="{% url 'announcement_view' pk=announcement.pk %}">
+						    <p class="adress">{{ announcement.street_type }}
+                                {{ announcement.street }}, {{ announcement.home_number }}</p>
+						    <p class="param">{{ announcement.rooms_number }}-кімн.,
+                                {{ announcement.area }} кв. м.</p>
+                                <p class="price">{{ announcement.price }} грн/міс</p>
+                            </a>
+					        </div>
+                        {% endfor %}
+                    {% elif i == 1 %}
+                        <a href="{% url 'post_list' pk=l1.0.district.pk %}"><p class="distr">{{l1.0.district}}</p></a>
+                        {% for announcement in l1 %}
+                            <div class="adds">
+						    <p class="adress">{{ announcement.street_type }}
+                                {{ announcement.street }}, {{ announcement.home_number }}</p>
+						    <p class="param">{{ announcement.rooms_number }}-кімн.,
+                                {{ announcement.area }} кв. м.</p>
+                                <p class="price">{{ announcement.price }} грн/міс</p>
+					        </div>
+                        {% endfor %}
+                    {% else %}<a href="{% url 'post_list' pk=l2.0.district.pk %}"><p class="distr">{{l2.0.district}}</p></a>
+
+                        {% for announcement in l2 %}
+                            <div class="adds">
+						    <p class="adress">{{ announcement.street_type }}
+                                {{ announcement.street }}, {{ announcement.home_number }}</p>
+						    <p class="param">{{ announcement.rooms_number }}-кімн.,
+                                {{ announcement.area }} кв. м.</p>
+                                <p class="price">{{ announcement.price }} грн/міс</p>
+					        </div>
+                        {% endfor %}
+                    {% endif %}
+				</div>
+                {% endfor %}
+			</div>
+		</section>
+
+		<section>
+            <a href="{% url 'announcement_view' pk=fake.pk %}">
+			<img src="{% static 'img/fake.jpg' %}" class="background" id="bck2">
+			<div class="mixbck" id="black2">
+				<div id="review">
+					<p id="autor">Автор відгуку<br><b>{{ fake.owner }}</b></p>
+					<p id="adr">{{ fake.street_type }} {{ fake.street }}, {{ fake.home_number }}<br>{{ fake.floor }} поверх</p>
+					<p id="review_text">{{ fake.comment }}</p>
+					<p id="rating">Оцінка 10/10</p>
+				</div>
+			</div>
+            </a>
+		</section>
+
+		<section>
+			<div class="mixbck2" id="gray">
+				<p id="logo1"><span id="biglett">DOM</span><span id="smalllett">UM</span><span id="smalltext"> - надійний спосіб знайти житло</span></p>
+				<hr class="line" id="line3">
+
+				<div id="contacts">
+					<p id="cont">Контакти:</p>
+
+					<div class="contact">
+						<img src="{% static 'img/phone.png' %}" class="contact_icon">
+						<p class="contact_text">+38(096)063-21-33</p>
+					</div>
+
+					<div class="contact">
+						<img src="{% static 'img/email.png' %}" class="contact_icon">
+						<p class="contact_text">domum@gmail.com</p>
+					</div>
+
+					<div class="contact">
+						<img src="{% static 'img/insta.png' %}" class="contact_icon">
+						<p class="contact_text">@domum.kh</p>
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
+</html>
