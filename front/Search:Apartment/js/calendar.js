@@ -62,7 +62,8 @@ const DECEMBER = [
 ];
 
 const MONTHS = [JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER];
-const MONTHS_NAME = ['Червень 2019', 'Липень 2019', 'Серпень 2019', 'Вересень 2019', 'Жовтень 2019', 'Листопад 2019', 'Грудень 2019']
+const MONTHS_NAME_YEAR = ['Червень 2019', 'Липень 2019', 'Серпень 2019', 'Вересень 2019', 'Жовтень 2019', 'Листопад 2019', 'Грудень 2019'];
+const MONTHS_NAME_CASE = ['червня 2019', 'липня 2019', 'серпня 2019', 'вересня 2019', 'жовтня 2019', 'листопада 2019', 'грудня 2019'];
 const MAX_DAY = [30, 31, 31, 30, 31, 30, 31];
 let month = 0;
 
@@ -71,12 +72,21 @@ let term = 0;
 
 let arrive = {
 	month: '',
-	day: ''
+	day: '',
+	getDate: function() {
+		return `${this.day} ${MONTHS_NAME_CASE[this.month]}`;
+	}
 };
 
 let leave = {
 	month: '',
-	day: ''
+	day: '',
+	getDate: function() {
+		if (this.month === '')
+			return ` - ${arrive.day} ${MONTHS_NAME_CASE[arrive.month]}`;
+
+		return ` - ${this.day} ${MONTHS_NAME_CASE[this.month]}`;
+	}
 };
 
 function calendarSize()
@@ -99,7 +109,7 @@ function fillCalendar()
 	let count = 0;
 	let days = document.querySelectorAll('.calendar-cell');
 	let curr_month = document.getElementById('curr_month');
-	curr_month.innerHTML = MONTHS_NAME[month];
+	curr_month.innerHTML = MONTHS_NAME_YEAR[month];
 
 	for (let i = 0; i < 6; i++)
 	{
@@ -113,27 +123,27 @@ function fillCalendar()
 				days[count].innerHTML = `<br>${item}`;
 				if (month == arrive.month && item == arrive.day)
 				{
-					days[count].style.backgroundColor = 'green';
+					days[count].style.backgroundColor = 'rgba(0, 155, 0, 0.7)';
 				}
 				else if (isArrive && item > arrive.day && item < leave.day && month == leave.month)
 				{
-					days[count].style.backgroundColor = 'yellow';
+					days[count].style.backgroundColor = 'rgba(255, 255, 50, 0.7)';
 				}
 				else if (isArrive && item > arrive.day && item <= 31 && month == arrive.month && month < leave.month)
 				{
-					days[count].style.backgroundColor = 'yellow';
+					days[count].style.backgroundColor = 'rgba(255, 255, 50, 0.7)';
 				}
 				else if (isArrive && item < leave.day && month > arrive.month && month == leave.month)
 				{
-					days[count].style.backgroundColor = 'yellow';
+					days[count].style.backgroundColor = 'rgba(255, 255, 50, 0.7)';
 				}
 				else if (isArrive && month > arrive.month && month < leave.month)
 				{
-					days[count].style.backgroundColor = 'yellow';
+					days[count].style.backgroundColor = 'rgba(255, 255, 50, 0.7)';
 				}
 				else if (isArrive && item == leave.day && month == leave.month)
 				{
-					days[count].style.backgroundColor = 'red';
+					days[count].style.backgroundColor = 'rgba(255, 0, 20, 0.75)';
 				}
 				else
 				{
@@ -148,7 +158,12 @@ function fillCalendar()
 function selectDate(event)
 {
 	let day = +event.currentTarget.innerHTML.match(/\d+/)[0];
+	let date = new Date();
+
 	if (day < 1 || day > 31)
+		return;
+
+	if (month <= date.getMonth() - 5 && day <= date.getDate())
 		return;
 
 	if (isArrive)
@@ -160,6 +175,7 @@ function selectDate(event)
 		term = 1;
 		isArrive = false;
 	}
+
 	else if ((month < arrive.month) || (month == arrive.month && day < arrive.day))
 	{
 		leave.month = arrive.month;
@@ -169,6 +185,7 @@ function selectDate(event)
 		dateDiff(arrive.month, arrive.day, leave.month, leave.day);
 		isArrive = true;		
 	}
+
 	else
 	{
 		leave.month = month;
@@ -176,7 +193,10 @@ function selectDate(event)
 		dateDiff(arrive.month, arrive.day, leave.month, leave.day);
 		isArrive = true;
 	}
+
 	fillCalendar();
+	document.getElementById('arrive_date').innerHTML = arrive.getDate();
+	document.getElementById('leave_date').innerHTML = leave.getDate();
 	document.getElementById('total_price').innerHTML = +document.getElementById('price').innerHTML * term;
 }
 

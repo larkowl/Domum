@@ -1,3 +1,4 @@
+document.addEventListener('DOMContentLoaded', buttonSize);
 window.addEventListener('resize', buttonSize);
 
 function buttonSize()

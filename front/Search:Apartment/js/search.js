@@ -1,4 +1,4 @@
-let srt = '0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0';
+let srt = '0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0';
 
 const INDUSTRIALNIY = ['Індустріальна', 'Тракторний завод'];
 const KIIVSKIY = ['Пушкінська', 'Київська', 'Архітектора Бекетова', 'Академіка Барабашова', 'Майдан Конституції'];
@@ -10,6 +10,21 @@ const SLOBIDSKIY = ['Завод імені Малишева', 'Спортивн�
 const HOLODNOGIRSKIY = ['Південний вокзал', 'Центральний ринок'];
 const SHEVCHENKIVSKIY = ['Наукова', 'Ботанічний Сад', 'Держпром', 'Університет', '23 Серпня', 'Олексіївська', 'Історичний музей', 'Перемога'];
 const DISTRICTS = [INDUSTRIALNIY, KIIVSKIY, MOSKOVSKIY, NEMYSHLYANSKIY, NOVOBAVARSKIY, OSNOVYANSKIY, SLOBIDSKIY, HOLODNOGIRSKIY, SHEVCHENKIVSKIY];
+
+function displayPrice()
+{
+	let price = document.getElementById('suggested_price');
+	price.style.display = 'block';
+}
+
+function displaySortSelection()
+{
+	let sort = document.getElementById('select_sort');
+	if (sort.style.display == 'block')
+		sort.style.display = 'none';
+	else
+		sort.style.display = 'block';
+}
 
 let renting = document.getElementById('goal1');
 let buying = document.getElementById('goal2');
@@ -44,22 +59,6 @@ function setRenting()
 	if (long_term.checked == false && day_term.checked == false)
 		long_term.checked = true;
 
-	// New code start
-	if (day_term.checked == true)
-	{
-		office.style.display = 'none';
-		office_label.style.display = 'none';
-		office.checked = false;
-		apartment.checked = true;
-	}
-
-	else
-	{
-		office.style.display = 'inline-block';
-		office_label.style.display = 'inline-block';
-	}
-	// New code end
-
 	if (office.checked == false)
 	{
 		beds_count.style.display = 'block';
@@ -84,9 +83,8 @@ function setRenting()
 
 	house.style.display = 'none';
 	house_label.style.display = 'none';
-	// Delete this code block
-	/* office.style.display = 'inline-block';
-	office_label.style.display = 'inline-block'; */
+	office.style.display = 'inline-block';
+	office_label.style.display = 'inline-block';
 	house_break.style.display = 'none';
 
 	if (garage.checked == true)
@@ -187,7 +185,7 @@ function displayStations(stations)
 		let label = document.createElement('label');
 		let br = document.createElement('br');
 		let parent = document.getElementById('metro_stations');
-		input.type = 'radio';
+		input.type = 'checkbox';
 		input.name = 'station';
 		input.className = 'station';
 		input.id = `station${i + 1}`;
@@ -230,13 +228,6 @@ function setFilters(status_mask)
 		}
 	}
 }
-function displayPrice()
-{
-	let price = document.getElementById('suggested_price_green');
-	price.style.display = 'block';
-	// Deleted code line
-	// window.scroll(0, 10000);
-}
 
 document.addEventListener('DOMContentLoaded', rentOrBuy);
 document.addEventListener('DOMContentLoaded', setFilters(srt));
@@ -248,4 +239,6 @@ document.querySelectorAll('#districts>div>input').forEach(function(element)
 		displayStations(selectStations())
 	});
 });
+document.querySelector('#select_sort_title').addEventListener('click', displaySortSelection);
+document.querySelectorAll('#select_sort').forEach(function(element) {element.addEventListener('click', displaySortSelection)});
 document.querySelector('#suggested_price_button').addEventListener('click', displayPrice);
