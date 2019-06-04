@@ -132,18 +132,25 @@
 				<div class="filters-block__title">&nbsp;Найближча станція метро&nbsp;</div>
 				<div class="filters-block__options" id="metro_stations"></div>
 			</div>
-			<!-- Replace from here -->
-			<!-- <div class="filters-block filters-block__green">
-				<div class="filters-block__title__white">&nbsp;Ціна&nbsp;</div>
-				<div class="filters-block__options">
-					<input type="number" class="input__number__white" name="price" id="price"><span style="color: white; font-size: 16px">&nbsp;грн</span>
-				</div>
-			</div>
-			<div class="price-button__green" id="suggested_price_button">ПОКАЗАТИ ПРОПОНОВАНУ ЦІНУ ЗА ОБРАНИМИ ПАРАМЕТРАМИ</div>
-			<div class="price-button__green" id="suggested_price_green">850 грн/доба</div> -->
 		</form>
 		<div class="photos">
-			<div class="photos-container"></div>
+			<!-- New code start -->
+			<div class="photos-container">
+				<div class="photo" id="photo1"></div>
+				<div class="photo" id="photo2"></div>
+				<div class="photo" id="photo3"></div>
+				<div class="photo" id="photo4"></div>
+				<div class="photo" id="photo5"></div>
+				<div class="photo" id="photo6"></div>
+				<div class="photo" id="photo7"></div>
+				<div class="photo" id="photo8"></div>
+			</div>
+			<div class="photos-change">
+				<input type="file" name="add_photo" id="add_photo">
+				<label class="photos-add" for="add_photo">Додати фото</label>
+				<div class="photos-delete" id="delete_photos">Видалити всі фотографії</div>
+			</div>
+			<!-- New code end -->
 			<div class="photos-subtitle">Додайте мінімум 4 фото Вашого об'єкта. Фото мають бути якісними, з великою роздільною здатністю. Основним рекомендується обрати фото, на якому добре видно інтер'єр або спальне ліжко.</div>
 			<textarea class="apartment-description" name="apartment_description" id="apartment_description" placeholder="Опишіть Ваш об'єкт, вкажіть особливості, правила та інше"></textarea>
 			<div class="address">
@@ -153,7 +160,6 @@
 					<input type="text" class="address-input" name="address" id="address" placeholder="Введіть адресу">
 				</div>
 			</div>
-			<!-- New code line -->
 			<div class="price-button" id="add_add">ДОДАТИ ОГОЛОШЕННЯ</div>
 		</div>
 		<form class="filters-extended">
@@ -181,7 +187,6 @@
 					<input type="number" class="input__number" name="beds_number" id="beds_number"><span>&nbsp;шт</span>
 				</div>
 			</div>
-			<!-- To there -->
 			<div class="filters-block filters-block__green">
 				<div class="filters-block__title__white">&nbsp;Ціна&nbsp;</div>
 				<div class="filters-block__options">
@@ -192,7 +197,8 @@
 			<div class="price-button__green" id="suggested_price_green">850 грн/доба</div>
 		</form>
 	</div>
-
+	<!-- New code line -->
+	<script src="js/photos_size.js"></script>
 	<script src="js/add.js"></script>
 </body>
 </html>

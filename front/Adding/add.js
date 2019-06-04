@@ -44,7 +44,6 @@ function setRenting()
 	if (long_term.checked == false && day_term.checked == false)
 		long_term.checked = true;
 
-	// New code start
 	if (day_term.checked == true)
 	{
 		office.style.display = 'none';
@@ -58,7 +57,6 @@ function setRenting()
 		office.style.display = 'inline-block';
 		office_label.style.display = 'inline-block';
 	}
-	// New code end
 
 	if (office.checked == false)
 	{
@@ -84,9 +82,6 @@ function setRenting()
 
 	house.style.display = 'none';
 	house_label.style.display = 'none';
-	// Delete this code block
-	/* office.style.display = 'inline-block';
-	office_label.style.display = 'inline-block'; */
 	house_break.style.display = 'none';
 
 	if (garage.checked == true)
@@ -230,13 +225,43 @@ function setFilters(status_mask)
 		}
 	}
 }
+
 function displayPrice()
 {
 	let price = document.getElementById('suggested_price_green');
 	price.style.display = 'block';
-	// Deleted code line
-	// window.scroll(0, 10000);
 }
+
+// New code start
+let photos_count = 1;
+const PHOTOS_MIN = 4;
+const PHOTOS_MAX = 8;
+
+function addPhoto()
+{
+	if (photos_count > PHOTOS_MAX)
+		return;
+
+	let file = document.getElementById('add_photo').files[0];
+	let reader = new FileReader();
+	reader.onloadend = function() {
+		document.getElementById(`photo${photos_count++}`).style.backgroundImage = `url(${reader.result})`;
+	}
+	
+	if (file)
+	{
+		reader.readAsDataURL(file);
+	}
+}
+
+function deletePhotos()
+{
+	for (let i = 1; i < photos_count; i++)
+		document.getElementById(`photo${i}`).style.backgroundImage = `url("../img/background_img.png")`;
+	
+	photos_count = 1;
+}
+// New code end
 
 document.addEventListener('DOMContentLoaded', rentOrBuy);
 document.addEventListener('DOMContentLoaded', setFilters(srt));
@@ -249,3 +274,6 @@ document.querySelectorAll('#districts>div>input').forEach(function(element)
 	});
 });
 document.querySelector('#suggested_price_button').addEventListener('click', displayPrice);
+// 2 new code lines
+document.getElementById('add_photo').addEventListener('change', addPhoto);
+document.getElementById('delete_photos').addEventListener('click', deletePhotos);

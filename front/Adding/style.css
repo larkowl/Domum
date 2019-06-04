@@ -582,12 +582,89 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
   color: white;
 }
 
+.photos-container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[4];
+      grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+}
+
+.photos-change {
+  margin-top: 25px;
+  margin-bottom: 20px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}
+
+.photos-add {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  -ms-grid-column-align: right;
+      justify-self: right;
+  display: inline-block;
+  cursor: pointer;
+  background-color: #375d54;
+  border: none;
+  color: white;
+  font-size: 14px;
+  padding: 10px 20px;
+  text-align: center;
+  line-height: 1.5em;
+  opacity: 0.8;
+  -webkit-transition-duration: 0.2s;
+          transition-duration: 0.2s;
+}
+
+.photos-add:hover {
+  background-color: rgba(55, 93, 84, 0.5);
+}
+
+.photos-delete {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  -ms-grid-column-align: left;
+      justify-self: left;
+  display: inline-block;
+  cursor: pointer;
+  background-color: #80002A;
+  border: none;
+  color: white;
+  font-size: 14px;
+  padding: 10px 20px;
+  text-align: center;
+  line-height: 1.5em;
+  opacity: 0.8;
+  -webkit-transition-duration: 0.2s;
+          transition-duration: 0.2s;
+}
+
+.photos-delete:hover {
+  background-color: rgba(128, 0, 46, 0.3);
+}
+
 .photos-subtitle {
   font-size: 14px;
   color: #999;
   border: none;
   border-bottom: 1px solid #999;
   padding: 5px;
+}
+
+.photo {
+  background-image: url("../img/background_img.png");
+  background-size: cover;
+  background-position: center;
+  border: none;
+}
+
+input[type="file"] {
+  display: none;
 }
 
 .apartment-description {

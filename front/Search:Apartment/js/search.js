@@ -59,6 +59,22 @@ function setRenting()
 	if (long_term.checked == false && day_term.checked == false)
 		long_term.checked = true;
 
+	// New code start
+	if (day_term.checked == true)
+	{
+		office.style.display = 'none';
+		office_label.style.display = 'none';
+		office.checked = false;
+		apartment.checked = true;
+	}
+
+	else
+	{
+		office.style.display = 'inline-block';
+		office_label.style.display = 'inline-block';
+	}
+	// New code end
+
 	if (office.checked == false)
 	{
 		beds_count.style.display = 'block';
@@ -83,8 +99,9 @@ function setRenting()
 
 	house.style.display = 'none';
 	house_label.style.display = 'none';
-	office.style.display = 'inline-block';
-	office_label.style.display = 'inline-block';
+	// Delete this code block
+	/* office.style.display = 'inline-block';
+	office_label.style.display = 'inline-block'; */
 	house_break.style.display = 'none';
 
 	if (garage.checked == true)
