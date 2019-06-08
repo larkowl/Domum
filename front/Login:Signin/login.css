@@ -14,7 +14,7 @@ body{
 	margin: 0;
 	width: 100%;
 	height: 844px;
-	opacity: 0.4;	
+	opacity: 0.6;
 }
 #black{
 	background-color: black;
@@ -89,7 +89,6 @@ body{
 	font-family: Yu Gothic UI;
 	font-size: 10pt;
 	color: red;
-	visibility: hidden;
 }
 #nologin{
 	margin-top: -20px;
@@ -97,7 +96,6 @@ body{
 	font-family: Yu Gothic UI;
 	font-size: 10pt;
 	color: red;
-	visibility: hidden;
 }
 input{
 	position: absolute;
@@ -116,6 +114,7 @@ input{
 }
 #button{
 	position: absolute;
+	font-weight: bold;
 	top: 63%;
 	left: 57%;
 	color: white;

@@ -1,39 +1,54 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="style_login.css" />
+		<link rel="stylesheet" href="{% static 'css/login.css' %}" />
 		<meta charset="UTF-8" />
 		<meta name="author" content="DOMUM Team" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Log In</title>
 	</head>
 	<body>
-		<img src="imgs/bck2.png" class="background">
+		<img src="{% static 'img/back_img.png' %}" class="background">
 		<div class="mixbck" id="black"></div>
-			<a href="land.html"><p id="logo"><span id="biglett">DOM</span><span id="smalllett">UM</span></p></a>
+			<a href="{% url 'post_list' %}"><p id="logo"><span id="biglett">DOM</span><span id="smalllett">UM</span></p></a>
+		<form method="post" action="{% url 'login' %}" id = "form">
+            {% csrf_token %}
 
-			<div id="window">
+        <div id="window">
 
-				<a href="g_login.html"><img src="imgs/google+.png" id="google"></a>
+				<a href="{% url 'social:begin' 'google-oauth2' %}">
+                    <img src="{% static 'img/google_icon.png' %}" id="google">
+                </a>
 
 				<p class="label" id="label1">Логін</p>
-				<input type="text" id="login" required>
+				<input type="text" id="login" name="username" required>
 				<p class="label" id="label2">Пароль</p>
-				<input type="password" id="password" required>
+				<input type="password" id="password" name="password" onkeyup="if (event.which == 13) form.submit()" required>
 
-				<a href="help.html"><p class="label" id="help">Забули пароль?</p></a>
-				<a href="signin.html"><p class="label" id="signin">Зареєструватися</p></a>
+				<a href="{% url 'password_reset' %}"><p class="label" id="help">Забули пароль?</p></a>
+				<a href="{% url 'registration' %}"><p class="label" id="signin">Зареєструватися</p></a>
 
-				<p id="mismatch">Неправильний логін або пароль!</p>
-				<p id="nologin">Акаунт з таким логіном не існує</p>
+				{% if form.errors %}
+                    <p id="mismatch">Неправильний логін або пароль!</p>
+                {% endif %}
+
+                {% if next %}
+                    {% if user.is_authenticated %}
+                        <p>Your account doesn't have access to this page. To proceed,
+                        please login with an account that has access.</p>
+                    {% endif %}
+                {% endif %}
 
 			</div>
 
 			<button type="submit">
-				<a href="account.html">
+				<a onclick="form.submit()">
 					<p id="button">Увійти</p>
+                    <input type="hidden" name="next" value="{{ next }}" />
 					<hr class="line" id="line1">
 				</a>
 			</button>
+        </form>
 	</body>
 </html>
