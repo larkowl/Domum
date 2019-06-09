@@ -1,4 +1,6 @@
 {% extends 'app/base.html' %}
+{% load static %}
+{% block styles %}<link rel="stylesheet" href="{% static 'css/search&anview.css' %}">{% endblock %}
 {% block title %}
     {% if edit %}
         Редактирование объявления
@@ -7,18 +9,343 @@
     {% endif %}
 {% endblock %}
 {% block content %}
-    <hr>
-    <h1>
-    {% if edit %}
-        Редактирование объявления
-    {% else %}
-        Добавление объявления
-    {% endif %}
-    </h1>
-    <form method="POST">{% csrf_token %}
-        <table>
-            {{ form }}
-        </table>
-        <button type="submit" class="save btn btn-default">Сохранить</button>
+    <style>
+        .photo {
+            background-image: url("{% static 'img/background_img.png' %}");
+            background-size: cover;
+            background-position: center;
+            border: none;
+        }
+    </style>
+    <form method="post" id="form" enctype="multipart/form-data"> {% csrf_token %}
+    <div class="container-search">
+		<div class="filters">
+			<div class="filters-block filters-block__white">
+				<div class="filters-block__title">&nbsp;Мета оголошення&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="radio" name="goal" id="goal1" value="0">
+					<label for="goal1">здача в оренду</label>
+					<br>
+					<input type="radio" name="goal" id="goal2" value="1">
+					<label for="goal2">продаж</label>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white" id="rent_term">
+				<div class="filters-block__title">&nbsp;Строк оренди&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="radio" name="term" id="term1" value="0">
+					<label for="term1">довгострокова</label>
+					<br>
+					<input type="radio" name="term" id="term2" value="1">
+					<label for="term2">добова</label>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white">
+				<div class="filters-block__title">&nbsp;Тип житла&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="radio" name="type" id="type1" value="0">
+					<label for="type1">квартира</label>
+					<br>
+					<input type="radio" name="type" id="type2" value="1">
+					<label for="type2" id="type2_label">дім</label>
+					<br id="house_break">
+					<input type="radio" name="type" id="type3" value="2">
+					<label for="type3" id="type3_label">офіс</label>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white">
+				<div class="filters-block__title">&nbsp;Рівень ремонту&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="radio" name="repair_rate" id="repair_rate1" value="0">
+					<label for="repair_rate1">0</label>
+					<br>
+					<input type="radio" name="repair_rate" id="repair_rate2" value="1">
+					<label for="repair_rate2">1</label>
+					<br>
+					<input type="radio" name="repair_rate" id="repair_rate3" value="2">
+					<label for="repair_rate3">2</label>
+					<br>
+					<input type="radio" name="repair_rate" id="repair_rate4" value="3">
+					<label for="repair_rate4">3</label>
+					<br>
+					<input type="radio" name="repair_rate" id="repair_rate5" value="4">
+					<label for="repair_rate5">4</label>
+					<br>
+					<input type="radio" name="repair_rate" id="repair_rate6" value="5">
+					<label for="repair_rate6">5</label>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white" id="extra_options">
+				<div class="filters-block__title">&nbsp;Додаткові параметри&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="checkbox" name="extra_options" id="extra_options1" value="0">
+					<label for="extra_options1" id="furniture"></label>
+					<br>
+					<input type="checkbox" name="extra_options" id="extra_options2" value="1">
+					<label for="extra_options2" id="extra_options2_label">наявність гаражу</label>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white" id="districts">
+				<div class="filters-block__title">&nbsp;Район міста&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="radio" name="district" id="district1" value="0">
+					<label for="district1">Індустріальний</label>
+					<br>
+					<input type="radio" name="district" id="district2" value="1">
+					<label for="district2">Київський</label>
+					<br>
+					<input type="radio" name="district" id="district3" value="2">
+					<label for="district3">Московський</label>
+					<br>
+					<input type="radio" name="district" id="district4" value="3">
+					<label for="district4">Немишлянський</label>
+					<br>
+					<input type="radio" name="district" id="district5" value="4">
+					<label for="district5">Новобаварський</label>
+					<br>
+					<input type="radio" name="district" id="district6" value="5">
+					<label for="district6">Основ'янський</label>
+					<br>
+					<input type="radio" name="district" id="district7" value="6">
+					<label for="district7">Слобідський</label>
+					<br>
+					<input type="radio" name="district" id="district8" value="7">
+					<label for="district8">Холодногірський</label>
+					<br>
+					<input type="radio" name="district" id="district9" value="8">
+					<label for="district9">Шевченківський</label>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white">
+				<div class="filters-block__title">&nbsp;Відстань до метро&nbsp;</div>
+				<div class="filters-block__options">
+					<input type="radio" name="minutes_to_metro" id="minutes_to_metro1" value="1">
+					<label for="minutes_to_metro1">1 хвилина</label>
+					<br>
+					<input type="radio" name="minutes_to_metro" id="minutes_to_metro2" value="3">
+					<label for="minutes_to_metro2">3 хвилини</label>
+					<br>
+					<input type="radio" name="minutes_to_metro" id="minutes_to_metro3" value="5">
+					<label for="minutes_to_metro3">5 хвилин</label>
+					<br>
+					<input type="radio" name="minutes_to_metro" id="minutes_to_metro4" value="10">
+					<label for="minutes_to_metro4">10 хвилин</label>
+					<br>
+					<input type="radio" name="minutes_to_metro" id="minutes_to_metro5" value="20">
+					<label for="minutes_to_metro5">20 хвилин</label>
+					<br>
+					<input type="radio" name="minutes_to_metro" id="minutes_to_metro6" value="30">
+					<label for="minutes_to_metro6">30 і більше хвилин</label>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white">
+				<div class="filters-block__title">&nbsp;Найближча станція метро&nbsp;</div>
+				<div class="filters-block__options" id="metro_stations"></div>
+			</div>
+		</div>
+		<div class="photos">
+            <div class="photos-container">
+				<div class="photo" id="photo1"
+                        {% if data.photo1 %}
+                           style="background-image: url('/media/{{ data.photo1 }}');"
+                       {% endif %}></div>
+				<div class="photo" id="photo2"
+                       {% if data.photo2 %}
+                           style="background-image: url('/media/{{ data.photo2 }}');"
+                       {% endif %}></div>
+				<div class="photo" id="photo3"
+                       {% if data.photo3 %}
+                           style="background-image: url('/media/{{ data.photo3 }}');"
+                       {% endif %}></div>
+				<div class="photo" id="photo4"
+                       {% if data.photo4 %}
+                           style="background-image: url('/media/{{ data.photo4 }}');"
+                       {% endif %}></div>
+				<div class="photo" id="photo5"
+                       {% if data.photo5 %}
+                           style="background-image: url('/media/{{ data.photo5 }}');"
+                       {% endif %}></div>
+				<div class="photo" id="photo6"
+                       {% if data.photo6 %}
+                           style="background-image: url('/media/{{ data.photo6 }}');"
+                       {% endif %}></div>
+				<div class="photo" id="photo7"
+                       {% if data.photo7 %}
+                           style="background-image: url('/media/{{ data.photo7 }}');"
+                       {% endif %}></div>
+				<div class="photo" id="photo8"
+                       {% if data.photo8 %}
+                           style="background-image: url('/media/{{ data.photo8 }}');"
+                       {% endif %}></div>
+			</div>
+			<div class="photos-change">
+				<input type="file" name="add_photo1" id="add_photo1" accept="image/*">
+				<label class="photos-add" for="add_photo1" id="add_photo">Додати фото</label>
+				<div class="photos-delete" id="delete_photos">Видалити всі фотографії</div>
+                <input type="file" name="add_photo2" id="add_photo2">
+                <input type="file" name="add_photo3" id="add_photo3">
+                <input type="file" name="add_photo4" id="add_photo4">
+                <input type="file" name="add_photo5" id="add_photo5">
+                <input type="file" name="add_photo6" id="add_photo6">
+                <input type="file" name="add_photo7" id="add_photo7">
+                <input type="file" name="add_photo8" id="add_photo8">
+                <input type="hidden" name="photos_count" id="photos_count">
+			</div>
+			<div class="photos-subtitle">Додайте мінімум 4 фото Вашого об'єкта. Фото мають бути якісними, з великою роздільною здатністю. Основним буде перше фото, на ньому повинно бути добре видно інтер'єр або спальне ліжко.</div>
+			<textarea class="apartment-description" name="apartment_description" id="apartment_description" placeholder="Опишіть Ваш об'єкт, вкажіть особливості, правила та інше. Оголошення без опису рідко переглядаються"></textarea>
+			<div class="address">
+				<div class="address-title">Адреса</div>
+				<div class="address-block">
+					<div class="address-city" style="margin: 0.5%">Харків</div>
+                    <div style="margin: 0.5%;">
+                    <select style="margin-left: 0" class="address-input" name="street_type" id="street_type">
+                        <option value="1">вулиця</option>
+                        <option value="2">проспект</option>
+                        <option value="3">провулок</option>
+                        <option value="4">проїзд</option>
+                        <option value="5">шосе</option>
+                        <option value="7">набережна</option>
+                        <option value="8">бульвар</option>
+                        <option value="9">площа</option>
+                    </select>
+                    </div>
+					<input style="margin: 0.5%" type="text" class="address-input" name="address1" id="address1" placeholder="Введіть назву">
+					<input style="margin: 0.5%" type="text" class="address-input" name="address2" id="address2" placeholder="Введіть номер будинку">
+				</div>
+			</div>
+        <div class="error" id="error">Для добавления объявления необходимо заполнить все поля</div>
+        <div class="price-button" id="add_add"
+             onclick=" if (check()) {document.getElementById('photos_count').value = photos_count;document.getElementById('form').submit()}">
+            {% if edit %}
+                ЗМІНИТИ ОГОЛОШЕННЯ
+            {% else %}
+            ДОДАТИ ОГОЛОШЕННЯ
+            {% endif %}
+        </div>
+		</div>
+		<div class="filters-extended">
+			<div class="filters-block filters-block__white">
+                <div class="filters-block__title"><p id="for_rooms">&nbsp;Введіть кількість кімнат&nbsp;</p></div>
+				<div class="filters-block__options">
+					<input type="number" min="1" max="10" class="input__number" name="rooms_number" id="rooms_number"><span>&nbsp;к</span>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white">
+                <div class="filters-block__title"><p id="for_space">&nbsp;Введіть житлову площу&nbsp;</p></div>
+				<div class="filters-block__options">
+					<input type="number" min="1" max="1000" class="input__number" name="living_space" id="living_space"><span>&nbsp;кв.м</span>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white">
+                <div class="filters-block__title"><p id="for_floor">&nbsp;<span id="floors"></span>&nbsp;</p></div>
+				<div class="filters-block__options">
+					<input type="number" min="1" max="100" class="input__number" name="floor" id="floor"><span>&nbsp;п</span>
+				</div>
+			</div>
+			<div class="filters-block filters-block__white" id="beds_count">
+                <div class="filters-block__title"><p id="for_beds">&nbsp;Кількість спальних місць&nbsp;</p></div>
+				<div class="filters-block__options">
+					<input type="number" min="1" max="100" class="input__number" name="beds_number" id="beds_number"><span>&nbsp;шт</span>
+				</div>
+			</div>
+            <div class="filters-block filters-block__green">
+                <div class="filters-block__title__white"><p id="for_price">&nbsp;Ціна&nbsp;</p></div>
+				<div class="filters-block__options">
+					<input type="number" min="0" max="100000000" class="input__number__white" name="price" id="price"><span style="color: white; font-size: 16px">&nbsp;грн</span>
+				</div>
+			</div>
+			<div class="price-button__green" id="suggested_price_button">ПОКАЗАТИ ПРОПОНОВАНУ ЦІНУ ЗА ОБРАНИМИ ПАРАМЕТРАМИ</div>
+			<div class="price-button__green" id="suggested_price_green">850 грн/доба</div>
+		</div>
+	</div>
     </form>
+    {% if edit %}
+        <script>
+            document.getElementById('apartment_description').value = '{{ data.comment }}';
+            document.getElementById('street_type').value = {{ data.street_type }};
+            document.getElementById('apartment_description').value = '{{ data.comment }}';
+            document.getElementById('address1').value = '{{ data.street }}';
+            document.getElementById('address2').value = '{{ data.home_number }}';
+            document.getElementById('rooms_number').value = {{ data.rooms }};
+            document.getElementById('living_space').value = {{ data.space }};
+            document.getElementById('floor').value = {{ data.floor }};
+            {% if data.type == 2 or data.type == 3 %}
+                document.getElementById('beds_number').value = {{ data.beds }};
+            {% endif %}
+            document.getElementById('price').value = {{ data.price }};
+        </script>
+    {% endif %}
+    <script>
+        srt = '{{ options }}';
+        bck = "{% static 'img/background_img.png' %}";
+        function check_empty(name) {
+            if (document.getElementById(name).value == "")
+                return false;
+            if (parseInt(document.getElementById(name).value) < 1) {
+                return false;
+            }
+            return true;
+        }
+        function transform(name, label_name) {
+            let res = check_empty(name);
+            if (res) return true;
+            if (name != "price") {
+                document.getElementById(label_name).style.color = "red";
+                document.getElementById(name).onfocus = () => {
+                    document.getElementById(label_name).style.color = "black";
+                };
+            } else {
+                document.getElementById(label_name).innerHTML = "Ціна є обов'язковою";
+                document.getElementById(name).onfocus = () => {
+                    document.getElementById(label_name).innerHTML = "Ціна";
+                }
+            }
+            return false;
+        }
+        function second_tranform(name) {
+            return document.getElementById(name).value != "";
+        }
+        function check() {
+            let r = true;
+            r &= transform('rooms_number', 'for_rooms');
+            r &= transform('living_space', 'for_space');
+            r &= transform('floor', 'for_floor');
+            if (document.getElementById('goal1').checked && document.getElementById('type1').checked)
+                r &= transform('beds_number', 'for_beds');
+            r &= second_tranform('price');
+            r &= second_tranform('address1');
+            r &= second_tranform('address2');
+            if (r) return r;
+            document.getElementById('error').style.visibility = 'visible';
+            return false;
+        }
+    </script>
+    <script src="{% static 'js/photos_size.js' %}"></script>
+	<script src="{% static 'js/add.js' %}"></script>
+    <script>
+    {% if data.photo1 %}
+        ++photos_count;
+    {% endif %}
+    {% if data.photo2 %}
+        ++photos_count;
+    {% endif %}
+    {% if data.photo3 %}
+        ++photos_count;
+    {% endif %}
+    {% if data.photo4 %}
+        ++photos_count;
+    {% endif %}
+    {% if data.photo5 %}
+        ++photos_count;
+    {% endif %}
+    {% if data.photo6 %}
+        ++photos_count;
+    {% endif %}
+    {% if data.photo7 %}
+        ++photos_count;
+    {% endif %}
+    {% if data.photo8 %}
+        ++photos_count;
+    {% endif %}
+    </script>
 {% endblock %}

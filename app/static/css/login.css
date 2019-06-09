@@ -2,19 +2,22 @@ body, p, a{
 	margin: 0;
 	padding: 0;
 }
-body{
-	position: fixed;
+a{
+	text-decoration: none;
 }
-.background{
-	margin: 0;
-	width: 100%;
-	height: 100%;
+body{
+	width: 100vw;
+	height: 100vh;
+	background-image: url("../img/back_img.png");
+	background-size: cover;
+	background-position: center;
+	overflow-x: hidden;
 }
 .mixbck{
 	margin: 0;
-	width: 100%;
-	height: 100%;
-	opacity: 0.4;
+	width: 100vw;
+	height: 100vh;
+	opacity: 0.6;
 }
 #black{
 	background-color: black;
@@ -23,21 +26,26 @@ body{
 	left: 0;
 }
 #logo{
-	position: absolute;
-	top: 23%;
-	left: 45%;
 	font-family: Gadugi;
-	font-size: 40pt;
-	font-weight: 500;
+	position: relative;
+	top: 18%;
+	left: 35%;
+	font-weight: 700;
 	color: white;
 	opacity: 0.7;
 }
+#biglett{
+	font-size: 40pt;
+}
+#smalllett{
+	font-size: 32pt;
+}
 #window{
-	position: absolute;
+	position: relative;
+	top: 25%;
+	left: 35%;
 	width: 400px;
 	height: 300px;
-	top: 35%;
-	left:38%;
 	background-color: rgba(255,255,255,0.7);
 }
 #google{
@@ -48,22 +56,21 @@ body{
 	left: 335px;
 }
 .label{
+	font-family: Yu Gothic UI;
+	font-size: 14pt;
 	position: absolute;
 	color: black;
-	font-family: MS Gothic;
-	font-size: 14pt;
 	left: 50px;
 }
 #label1{
 	top: 74px;
-	font-weight: 600;
+	font-weight: 400;
 }
 #label2{
 	top: 154px;
-	font-weight: 600;
+	font-weight: 400;
 }
 #help{
-	font-family: Yu Gothic UI;
 	font-size: 11pt;
 	top: 212px;
 	left: 211px;
@@ -72,11 +79,30 @@ body{
 #help:hover{
 	text-decoration: underline;
 }
+#signin{
+	top: 254px;
+	font-size: 12pt;
+	color: white;
+	text-decoration: underline;
+}
+#signin:hover{
+}
+#mismatch{
+	margin-left: 50px;
+	font-family: Yu Gothic UI;
+	font-size: 10pt;
+	color: red;
+}
+#nologin{
+	margin-top: -20px;
+	margin-left: 50px;
+	font-family: Yu Gothic UI;
+	font-size: 10pt;
+	color: red;
+}
 input{
 	position: absolute;
-	background-color: rgba(255,255,255);
-	opacity: 1;
-	font-family: MS Gothic;
+	background-color: rgba(255,255,255, 1);
 	font-size: 14pt;
 	color: black;
 	left: 85px;
@@ -90,26 +116,33 @@ input{
 	top: 182px;
 }
 #button{
-	position: absolute;
-	top: 70%;
-	left: 44%;
+	position: relative;
+	font-weight: bold;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	top: 63%;
+	left: 57%;
 	color: white;
-	font-size: 24pt;
+	background-color: transparent;
 	font-family: MS Gothic;
+	font-size: 22pt;
 }
 .line{
 	padding: 0;
 	margin: 0;
 	color: white;
-	position: absolute;
-	border-style: solid;
+	position: relative;
+	color: white;
 	background-color: white;
 }
 #line1{
-	top: 583px;
-	left: 805px;
+	top: 68%;
+	left: 55%;
 	width: 244px;
 }
 #button:hover{
+	opacity: 0.6;
+}
+#button:hover~#line1{
 	opacity: 0.6;
 }

@@ -1,0 +1,10 @@
+{% extends 'app/base.html' %}
+{% block title %}Registration{% endblock %}
+{% block content %}
+    <form method="POST">{% csrf_token %}
+        <table>
+            {{ form }}
+        </table>
+        <button type="submit" class="save btn btn-default">Сохранить</button>
+    </form>
+{% endblock %}
