@@ -2,12 +2,16 @@ body, p, a{
 	margin: 0;
 	padding: 0;
 }
+a{
+	text-decoration: none;
+}
 body{
 	width: 100vw;
 	height: 100vh;
 	background-image: url("../img/back_img.png");
 	background-size: cover;
 	background-position: center;
+	overflow-x: hidden;
 }
 .mixbck{
 	margin: 0;
@@ -23,7 +27,7 @@ body{
 }
 #logo{
 	font-family: Gadugi;
-	position: absolute;
+	position: relative;
 	top: 18%;
 	left: 35%;
 	font-weight: 700;
@@ -37,7 +41,7 @@ body{
 	font-size: 32pt;
 }
 #window{
-	position: absolute;
+	position: relative;
 	top: 25%;
 	left: 35%;
 	width: 400px;
@@ -112,11 +116,14 @@ input{
 	top: 182px;
 }
 #button{
-	position: absolute;
+	position: relative;
 	font-weight: bold;
+	margin-top: 20px;
+	margin-bottom: 10px;
 	top: 63%;
 	left: 57%;
 	color: white;
+	background-color: transparent;
 	font-family: MS Gothic;
 	font-size: 22pt;
 }
@@ -124,7 +131,7 @@ input{
 	padding: 0;
 	margin: 0;
 	color: white;
-	position: absolute;
+	position: relative;
 	color: white;
 	background-color: white;
 }
