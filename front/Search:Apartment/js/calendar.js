@@ -4,6 +4,18 @@ document.addEventListener('DOMContentLoaded', fillCalendar);
 
 let calendar = document.getElementById('calendar');
 
+// New code start
+let booked = '23Червень2019 24Червень2019 29Червень2019 4Липень2019 6Липень2019';
+let booked_month = [];
+let booked_day = [];
+
+booked.split(' ').forEach(function(element) {
+	let match = element.match(/(\d+)([а-яА-Я]+)(\d+)/);
+	booked_day.push(match[1]);
+	booked_month.push(`${match[2]} ${match[3]}`);
+});
+// New code end
+
 const JUNE = [
 	[0, 0, 0, 0, 0, 1, 2],
 	[3, 4, 5, 6, 7, 8, 9],
@@ -106,6 +118,7 @@ function calendarSize()
 function fillCalendar()
 {
 	calendarSize();
+	let date = new Date();
 	let count = 0;
 	let days = document.querySelectorAll('.calendar-cell');
 	let curr_month = document.getElementById('curr_month');
@@ -117,7 +130,8 @@ function fillCalendar()
 		{
 			let item = MONTHS[month][i][k];
 			days[count].innerHTML = '';
-			days[count].style.backgroundColor = 'white';
+			// Update next line
+			days[count].style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
 			if (item != 0)
 			{
 				days[count].innerHTML = `<br>${item}`;
@@ -149,6 +163,23 @@ function fillCalendar()
 				{
 					days[count].style.backgroundColor = 'white';
 				}
+
+				// New code start
+				if (month <= date.getMonth() - 5 && item <= date.getDate())
+				{
+					days[count].style.backgroundColor = 'rgba(204, 204, 204, 0.3)';
+				}
+
+				for (let j = 0; j < booked_month.length; j++)
+				{
+					let month_booked = MONTHS_NAME_YEAR.indexOf(booked_month[j]);
+					let day_booked = +booked_day[j];
+					if (month == month_booked && item == day_booked)
+					{
+						days[count].style.backgroundColor = 'rgba(204, 4, 4, 0.3)';
+					}
+				}
+				// New code end
 			}
 			count++;
 		}
@@ -165,6 +196,47 @@ function selectDate(event)
 
 	if (month <= date.getMonth() - 5 && day <= date.getDate())
 		return;
+
+	// New code start
+	for (let i = 0; i < booked_month.length; i++)
+	{
+		let month_booked = MONTHS_NAME_YEAR.indexOf(booked_month[i]);
+		let day_booked = +booked_day[i];
+
+		if (month == month_booked && day == day_booked)
+			return;
+
+		if (!isArrive && ((month > arrive.month) || (month == arrive.month && day > arrive.day)))
+		{
+			if (month_booked > arrive.month && month_booked < month)
+				return;
+			
+			else if (month_booked == arrive.month && day_booked > arrive.day && month_booked < month)
+				return;
+
+			else if (month_booked > arrive.month && month_booked == month && day_booked < day)
+				return;
+
+			else if (month_booked == arrive.month && day_booked > arrive.day && month_booked == month && day_booked < day)
+				return;
+		}
+
+		else if (!isArrive && ((month < arrive.month) || (month == arrive.month && day < arrive.day)))
+		{
+			if (month_booked < arrive.month && month_booked > month)
+				return;
+			
+			else if (month_booked == arrive.month && day_booked < arrive.day && month_booked > month)
+				return;
+
+			else if (month_booked < arrive.month && month_booked == month && day_booked > day)
+				return;
+
+			else if (month_booked == arrive.month && day_booked < arrive.day && month_booked == month && day_booked > day)
+				return;
+		}
+	}
+	// New code end
 
 	if (isArrive)
 	{
