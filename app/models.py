@@ -25,6 +25,15 @@ class Person(models.Model):
         super(Person, self).delete(*args, **kwargs)
 
 
+class OrderId(models.Model):
+    order_id = models.IntegerField(default=30)
+
+    def next(self):
+        self.order_id += 1
+        self.save()
+        return 'order_id_' + str(self.order_id - 1)
+
+
 class StreetType(models.Model):
     name = models.CharField(max_length=30)
 
@@ -122,15 +131,11 @@ class Announcement(models.Model):
 
 
 class Deal(models.Model):
-    buyer_email = models.EmailField()
-    vender_email = models.EmailField()
+    buyer = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     date = models.DateField(default=timezone.now)
     term = models.TextField()
     price = models.IntegerField(default=0)
     announcement = models.ForeignKey(Announcement, on_delete=models.CASCADE, default=0)
-
-    def __str__(self):
-        return str(self.buyer_email) + ' ' + str(self.vender_email) + ' ' + str(self.announcement)
 
 
 class Feedback(models.Model):

@@ -17,6 +17,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import login, authenticate
 from .search_module import *
+from .prediction_module import *
 from .announcement_module import *
 from django.utils.decorators import method_decorator
 from liqpay.liqpay import LiqPay
@@ -46,6 +47,7 @@ def land(request):
 
 
 def post_list(request, pk=-1):
+    predict(STANDART_STR)
     if not request.POST:
         if pk == -1:
             return render(request, 'app/search.html', {'announcements': Announcement.objects
@@ -105,10 +107,32 @@ def check_str(str):
 
 def announcement_view(request, pk):
     announcement = get_object_or_404(Announcement, pk=pk)
+    can_comment = True
+    deal = None
+    if request.user.is_authenticated:
+        deal = Deal.objects.filter(Q(buyer=request.user)&Q(announcement=announcement)).first()
+        if deal is None or Feedback.objects.filter(deal=deal).first():
+            can_comment = False
+    else:
+        can_comment = False
+    if request.POST and can_comment:
+        comment = Feedback()
+        comment.rate = float(request.POST['comment_rate_mine'])
+        comment.text = request.POST['comment_text']
+        comment.deal = deal
+        comment.date = timezone.now()
+        comment.save()
+    can_comment = True
+    if request.user.is_authenticated:
+        deal = Deal.objects.filter(Q(buyer=request.user) & Q(announcement=announcement)).first()
+        if deal is None or Feedback.objects.filter(deal=deal).first():
+            can_comment = False
+    else:
+        can_comment = False
     feedbacks = announcement.find_feedbacks().order_by('-date')
     av_rate = announcement.form_rate(True, True, feedbacks)
     return render(request, 'app/announcement_view.html', {'announcement': announcement, 'feedbacks': feedbacks,
-                                                          'av_rate': av_rate})
+                                                          'av_rate': av_rate, 'can_comment': can_comment})
 
 
 class AnnouncementDetailView(generic.DetailView):
@@ -130,7 +154,22 @@ def profile_view(request, pk):
         person = Person.objects.get(user=user)
     except:
         person = None
-    return render(request, 'app/profile.html', {'person': person, 'person_user': user})
+    announcements = Announcement.objects.filter(owner=user).order_by('-date')
+    feedbacks = Feedback.objects.filter(deal__announcement__owner=user)
+    deals = list(Deal.objects.filter(announcement__owner=user))
+    limit = len(deals)
+    anti_deals = list(Deal.objects.filter(buyer=user))
+    deals += anti_deals
+    if len(feedbacks) > 0:
+        rate = sum([i.rate for i in feedbacks]) / len(feedbacks)
+        rate = round(rate, 1)
+        if int(rate) == rate:
+            rate = int(rate)
+    else:
+        rate = '—'
+    return render(request, 'app/personal_area.html', {'person': person, 'person_user': user,
+                                                      'announcements': announcements, 'rate': rate,
+                                                      'feedbacks': len(feedbacks), 'deals': deals, 'limit': limit})
 
 
 @login_required
@@ -254,7 +293,8 @@ def signup(request):
             user.save()
             person = Person()
             person.user = user
-            person.phone = request.POST['phone']
+            if request.POST['phone']:
+                person.phone = '+38' + request.POST['phone']
             person.ava = request.FILES['ava']
             person.save()
             current_site = get_current_site(request)
@@ -317,17 +357,17 @@ def activate(request, uidb64, token):
         return HttpResponse('Activation link is invalid!')
 
 
-def payment(request):
+def payment(request, sum):
     liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
     html = liqpay.cnb_form({
-        'action': 'pay',
+        'action': 'p2p',
         'amount': '1000',
-        'currency': 'USD',
+        'currency': 'UAH',
         'description': 'Заказ недвижимости через DOMUM',
-        'order_id': 'order_id_16',
+        'order_id': OrderId.objects.first().next(),
         'version': '3',
-        'sandbox': 0,  # sandbox mode, set to 1 to enable it
-        'server_url': 'http://127.0.0.1:8000/pay-callback/',  # url to callback view
+        'sandbox': 0,
+        'server_url': 'http://127.0.0.1:8000/pay-callback/',
     })
     return HttpResponse(html)
 
@@ -341,7 +381,6 @@ def sort_by_rate(announcement):
 
 def fill_photos(announcement, data, start, finish, need_none=False):
     for i in range(start, finish):
-        print('add_photo{}'.format(i), need_none)
         now = None if need_none else data.get('add_photo{}'.format(i))
         if i == 1:
             announcement.photo1 = now

@@ -6,6 +6,24 @@
 {% block title %}{{ announcement }}{% endblock %}
 {% block content %}
 <div style="margin: 1%">
+    <div class="add-comment-container" id="add_comment_container">
+        <form id="comment_form" method="post">{% csrf_token %}
+            <input type="hidden" name="comment_text" id="comment_text" value="">
+            <input type="hidden" name="comment_rate_mine" id="comment_rate_mine" value="">
+		<div class="add-comment-block">
+            <div class="add-comment-slider-block">
+                <span>&nbsp;Оцінка&nbsp;&nbsp;&nbsp;</span>
+                <input type="range" class="add-comment-slider" min="0" max="10" value="5" name="comment_rate" id="comment_rate">
+                <span id="rate_value"></span>
+            </div>
+			<textarea class="add-comment-text" name="comment_text" id="comment_text" placeholder="Опишіть свої враження від об'єкту та продавця"></textarea>
+			<div class="add-comment-buttons">
+				<div class="add-comment-cancel" id="add_comment_cancel">Скасувати</div>
+				<div class="add-comment-submit" id="add_comment_submit">Опублікувати</div>
+			</div>
+            </div>
+        </form>
+	</div>
 	<div class="info-block">
 		<div class="info__title">{% include 'app/announcement_info.html' %}</div>
 		<div class="info__price">{{ announcement.price }} грн
@@ -40,6 +58,9 @@
                     {{ feedbacks|length }} відгуків
                     {% endif %}
                     про цей об'єкт</div>
+            {% if can_comment %}
+                <div class="add-comment" id="add_comment">Додати відгук</div>
+            {% endif %}
 			</div>
 			<div class="apartment-comments__content">
                 {% for i in feedbacks %}
@@ -152,7 +173,7 @@
         to_metro = '{{ announcement.distance_to_metro }}';
     </script>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKUIe3avEN5YRDIFWe8pZ0ySPj0kRimJc&callback=initMap"></script>
-	<script src="{% static 'js/slider.js' %}"></script>
+	<script defer src="{% static 'js/slider.js' %}"></script>
 	<script src="{% static 'js/map_size.js' %}"></script>
 	<script src="{% static 'js/apartment.js' %}"></script>
         {% if announcement.real_type.pk == 2 or announcement.real_type.pk == 3 or announcement.real_type.pk == 6 %}

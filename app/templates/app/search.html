@@ -230,6 +230,9 @@
             {% include 'app/sale_ap_view.html' %}
             {% endif %}
 			</a>
+                {% if user == announcement.owner %}
+                    <a class="cards-item__edit" href="{% url 'announcement_edit' pk=announcement.pk %}">&#9998; Редагувати оголошення</a>
+                {% endif %}
             {% endfor %}
 		</div>
 		<div class="price">
@@ -260,14 +263,8 @@
                     За оцінкою {% if sort == 'rate' %}✓{% endif %}
                 </a>
 			</div>
-			<div class="filters-block">
-				<div class="filters-block__title">&nbsp;На яку ціну ви розраховуєте?&nbsp;</div>
-				<div class="filters-block__options">
-					<input type="number" class="input__number" name="supposed_price" id="supposed_price"><span>&nbsp;грн</span>
-				</div>
-			</div>
 			<div class="price-button" id="suggested_price_button">ПОКАЗАТИ ПРОПОНОВАНУ ЦІНУ ЗА ОБРАНИМИ ПАРАМЕТРАМИ</div>
-			<div class="price-button" id="suggested_price">850 грн/доба</div>
+			<div class="price-button" id="suggested_price">{{ prediction }}</div>
         </form>
 		</div>
 	</div>

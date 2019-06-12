@@ -191,7 +191,7 @@
                 <input type="file" name="add_photo8" id="add_photo8">
                 <input type="hidden" name="photos_count" id="photos_count">
 			</div>
-			<div class="photos-subtitle">Додайте мінімум 4 фото Вашого об'єкта. Фото мають бути якісними, з великою роздільною здатністю. Основним буде перше фото, на ньому повинно бути добре видно інтер'єр або спальне ліжко.</div>
+			<div class="photos-subtitle">Додайте мінімум 2 фото Вашого об'єкта. Фото мають бути якісними, з великою роздільною здатністю. Основним буде перше фото, на ньому повинно бути добре видно інтер'єр або спальне ліжко.</div>
 			<textarea class="apartment-description" name="apartment_description" id="apartment_description" placeholder="Опишіть Ваш об'єкт, вкажіть особливості, правила та інше. Оголошення без опису рідко переглядаються"></textarea>
 			<div class="address">
 				<div class="address-title">Адреса</div>
@@ -213,7 +213,8 @@
 					<input style="margin: 0.5%" type="text" class="address-input" name="address2" id="address2" placeholder="Введіть номер будинку">
 				</div>
 			</div>
-        <div class="error" id="error">Для добавления объявления необходимо заполнить все поля</div>
+        <div class="error" id="error" style="color: red; visibility: hidden; text-align: center">Необхідно заповнити всі поля</div>
+        <div class="error" id="error2" style="color: red; visibility: hidden; text-align: center">Необхідно мінімум 2 фотографії </div>
         <div class="price-button" id="add_add"
              onclick=" if (check()) {document.getElementById('photos_count').value = photos_count;document.getElementById('form').submit()}">
             {% if edit %}
@@ -315,9 +316,14 @@
             r &= second_tranform('price');
             r &= second_tranform('address1');
             r &= second_tranform('address2');
-            if (r) return r;
-            document.getElementById('error').style.visibility = 'visible';
-            return false;
+            if (!r) {
+                document.getElementById('error').style.visibility = 'visible';
+            }
+            if (photos_count < 3) {
+                r = false;
+                document.getElementById('error2').style.visibility = 'visible';
+            }
+            return r;
         }
     </script>
     <script src="{% static 'js/photos_size.js' %}"></script>
@@ -347,5 +353,6 @@
     {% if data.photo8 %}
         ++photos_count;
     {% endif %}
+    document.getElementById('add_photo').htmlFor = `add_photo${photos_count}`;
     </script>
 {% endblock %}

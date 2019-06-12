@@ -1,0 +1,118 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/search&anview.css' %}">
+    <style>
+
+.account-photo {
+  position: relative;
+  margin-left: 15%;
+  width: 70%;
+{% if person.ava %}
+  background-image: url("/media/{{ person.ava }}");
+{% else %}
+  background-image: url("{% static 'img/empty-avatar.png' %}");
+{% endif %}
+  background-size: cover;
+  background-position: center;
+  border: 2px solid white;
+  border-radius: 50%;
+}
+    </style>
+    {% endblock %}
+{% block title %}
+	{{ person_user.username }}
+{% endblock %}
+{% block content %}
+	<div class="tabs-block">
+		<div class="tabs-item" id="tab1">Оголошення</div>
+		<div class="tabs-item" id="tab2">Угоди</div>
+	</div>
+	<div class="container-personal">
+		<div class="ads-container" id="ads">
+			<div class="ads-blck">
+				<div class="ads-itm ads-counter"><span class="ads-count">{{ announcements|length }}</span>&nbsp;&nbsp;активних оголошень</div>
+			</div>
+            {% for announcement in announcements %}
+			<a class="card" href="{% url 'announcement_view' pk=announcement.pk %}">
+            {% if announcement.rent %}
+            {% else %}
+            {% include 'app/sale_ap_view.html' %}
+            {% endif %}
+			</a>
+                {% if user == announcement.owner %}
+                    <a class="cards-item__edit" href="{% url 'announcement_edit' pk=announcement.pk %}">&#9998; Редагувати оголошення</a>
+                {% endif %}
+            {% endfor %}
+		</div>
+		<div class="deal-container" id="deals">
+            {% for i in deals %}
+                {% if forloop.counter0 < limit %}
+			    <div class="deal-block" id="red-line">
+                {% else %}
+			    <div class="deal-block" id="green-line">
+                {% endif %}
+				<a href="{% url 'announcement_view' pk=i.announcement.pk %}" class="deal-address">
+                    {{ i.announcement.street_type }} {{ i.announcement.street }}, {{ i.announcement.home_number }}
+                </a>
+                {% if forloop.counter0 < limit %}
+				<div class="deal-customer">заказник: <a href="{% url 'profile' pk=i.buyer_id %}">
+                    {{ i.buyer }}
+                </a></div>
+                {% else %}
+				<div class="deal-customer">володар: <a href="{% url 'profile' pk=i.announcement.owner.pk %}">
+                    {{ i.announcement.owner }}
+                </a></div>
+                {% endif %}
+				<div class="deal-date">{{ i.date }}</div>
+			</div>
+            {% endfor %}
+		</div>
+		<div class="account-container">
+			<div class="account-photo" id="account_photo">
+				<div class="account-rating">{{ rate }}</div>
+			</div>
+			<div class="account-block">
+				<div class="account-info" id="last_name">{{ person_user.username }}</div>
+                {% if person_user.first_name %}
+				<div class="account-info" id="last_name">Ім'я: {{ person_user.first_name }}</div>
+                {% endif %}
+            {% if person_user.last_name %}
+				<div class="account-info" id="first_name">Прізвище: {{ person_user.last_name }}</div>
+            {% endif %}
+			</div>
+            {% if user.is_authenticated %}
+			<div class="account-block">
+				<div class="account-info" id="email">Поштова адреса: {{ person_user.email }}</div>
+                {% if person.phone %}
+				<div class="account-info" id="phone">Телефон: {{ person.phone }}</div>
+                {% endif %}
+			</div>
+            {% else %}
+                <br><a href="{% url 'login' %}?next=/users/{{ person_user.pk }}" style="color: black"><div class="account-info" id="contact_info"><u>Смотреть контактную информацию</u></div></a>
+            {% endif %}
+			<div class="account-block">
+				<div class="account-info">&bull; <span id="comments_count">{{ feedbacks }}</span>
+                    {% if feedbacks == 1 %}
+                    відгук
+                    {% elif feedbacks > 0 and feedbacks < 5 %}
+                    відгуки
+                    {% else %}
+                    відгуків
+                    {% endif %}
+                </div>
+				<div class="account-info">&bull; <span id="deals_count">{{ deals|length }}</span>
+                    {% if deals|length == 1 %}
+                    угода
+                    {% elif deals|length > 0 and deals|length < 5 %}
+                    угоди
+                    {% else %}
+                    угод
+                    {% endif %}
+                </div>
+			</div>
+		</div>
+	</div>
+	<script src="{% static 'js/personal_area.js' %}"></script>
+	<script src="{% static 'js/account_photo_size.js' %}"></script>
+{% endblock %}
